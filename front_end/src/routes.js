@@ -24,8 +24,12 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
+import HomeIcon from '@material-ui/icons/Home';
+
+
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
+import HomePage from "views/Home/Home.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
@@ -33,10 +37,51 @@ import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
+import ForumIcon from '@material-ui/icons/Forum';
+
+
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
+import Dataset from "views/Datasets/Dataset";
+import Blog from "views/Blog/Blog";
+import Profile from "views/Profile/Profile";
+import LandingPage from "views/LandingPage/LandingPage";
 
 const dashboardRoutes = [
+  
+  
+  {
+    path: "/home",
+    name: "Home",
+    rtlName: "لوح",
+    icon: HomeIcon,
+    component: HomePage,
+    layout: "/admin"
+  },
+  {
+    path: "/datasets",
+    name: "Datasets",
+    rtlName: "قائمة الجدول",
+    icon: "content_paste",
+    component: Dataset,
+    layout: "/admin"
+  },
+  {
+    path: "/blog",
+    name: "Blog",
+    rtlName: "لوح",
+    icon: ForumIcon,
+    component: Blog,
+    layout: "/admin"
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: Person,
+    component: Profile,
+    layout: "/admin"
+  },
   {
     path: "/dashboard",
     name: "Dashboard",
