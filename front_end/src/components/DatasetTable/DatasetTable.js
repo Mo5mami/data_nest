@@ -36,6 +36,7 @@ export default function DatasetTable(props) {
     setPage(0);
   };
 
+<<<<<<< HEAD
   const addHref=(row,column,name) => {
     const value = row[column.id];
     if (column.id===name)
@@ -57,6 +58,8 @@ export default function DatasetTable(props) {
     )
   }
 
+=======
+>>>>>>> origin
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
@@ -78,7 +81,18 @@ export default function DatasetTable(props) {
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+<<<<<<< HEAD
                   {columns.map(column=>addHref(row,column,"id"))}
+=======
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (
+                      <TableCell key={column.id} align={column.align}>
+                        {value}
+                      </TableCell>
+                    );
+                  })}
+>>>>>>> origin
                 </TableRow>
               );
             })}
