@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+
 import Axios from 'axios';
 import DefaultTable from 'components/DefaultTable/DefaultTable';
-import { TextField, TextareaAutosize, Grid, Container, ButtonGroup, Button } from '@material-ui/core';
+import { TextField, TextareaAutosize, Grid } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import LabelButton from 'components/LabelButton/LabelButton';
-import ControlButton from 'components/ControlButtons/ControlButton';
+
+import Stream from 'components/Stream/Stream';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,14 +50,16 @@ function DefaultStream()
     }
     return ""
   }
-  const features=["1","2","0"]
-
+  const features=["1","2","0"] //baddal lenna
+  const rowPrice=200 //baddal lenna
+  const datasetPrice=22200 //baddal lenna
 
   
 
   return (
     <React.Fragment>
-    <Container>
+      <Stream features={features} rowPrice={rowPrice} datasetPrice={datasetPrice}>
+    
     <div className={classes.root}>
 
     
@@ -97,14 +95,14 @@ function DefaultStream()
     
       
       <Grid item  justify="center" alignItems="center">
-        <TextareaAutosize aria-label="minimum height" rowsMin={3} placeholder={autoC()} style={{width :500}} disabled/>
+        <TextareaAutosize aria-label="minimum height" rowsMin={3} placeholder={autoC()} style={{width :500}} InputProps={{readOnly: true,}}/>
+        
       </Grid>
       </Grid>
       
     </div>
-    </Container>
-    <br /> <br /> 
-    <ControlButton features={features}> </ControlButton>
+   
+    </Stream>
     </React.Fragment>
   );
 }

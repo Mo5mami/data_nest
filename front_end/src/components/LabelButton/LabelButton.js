@@ -58,7 +58,7 @@ export default function LabelButton(props) {
       Submit Label
        </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Feedback</DialogTitle>
+        <DialogTitle id="form-dialog-title">Submit Label</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Fill with the correct Label
