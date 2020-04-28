@@ -10,7 +10,7 @@ const csv         = require('csvtojson')
 const  url = "mongodb://localhost:27017/";
 
 /// register user 
-router.post('/users/register',async (req,res)=>{
+router.post('/api/users/register',async (req,res)=>{
 
     
     const user = new User({
@@ -38,7 +38,7 @@ router.post('/users/register',async (req,res)=>{
     }
     })
 // login 
-router.post('/users/login',async(req,res)=>{
+router.post('/api/users/login',async(req,res)=>{
     
     try{
     const user = await User.findByCredentials(req.body.email,req.body.password)
@@ -59,7 +59,7 @@ router.post('/users/login',async(req,res)=>{
 })
 
 // logout 
-router.post('/users/logout',auth,async (req,res)=>{
+router.post('/api/users/logout',auth,async (req,res)=>{
     try{
         req.user.tokens = req.user.tokens.filter((token)=>{
         return token.token !== req.token
@@ -79,7 +79,7 @@ router.post('/users/logout',auth,async (req,res)=>{
 })
 
 // get all datasets 
-router.get('/users/datasets',auth,async(req,res)=>{
+router.get('/api/users/datasets',auth,async(req,res)=>{
      try{
      const all = await Dataset.find()
      res.send({
@@ -94,7 +94,7 @@ router.get('/users/datasets',auth,async(req,res)=>{
  })
 
 //user will see all the details about the dataset and how is supposed to label it 
- router.get('/users/datasets/:name',auth,async(req,res)=>{
+ router.get('/api/users/datasets/:name',auth,async(req,res)=>{
     try{
     
     const dataset = await Dataset.findOne({name:req.params.name})
@@ -106,7 +106,7 @@ router.get('/users/datasets',auth,async(req,res)=>{
 })
 
 // page where user will be labeling data 
-router.get('/users/datasets/:name/labeling',auth,async(req,res,next)=>{
+router.get('/api/users/datasets/:name/labeling',auth,async(req,res,next)=>{
     try{
         //else let him get the first row not occupied and not labeled 
         mongodb.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true },
@@ -144,7 +144,7 @@ router.get('/users/datasets/:name/labeling',auth,async(req,res,next)=>{
 })
 
 // updating one row 
-router.put('/users/datasets/:name/labeling/:id',auth,async(req,res)=>{
+router.put('/api/users/datasets/:name/labeling/:id',auth,async(req,res)=>{
     
     
     try{
@@ -176,7 +176,7 @@ router.put('/users/datasets/:name/labeling/:id',auth,async(req,res)=>{
 
 
 // upload a dataset 
-router.post('/users/upload',auth,multer_uploads.array('files',10000),async (req,res)=>{
+router.post('/api/users/upload',auth,multer_uploads.array('files',10000),async (req,res)=>{
     var type = req.body.type 
     
     if(type=='2d')
@@ -265,7 +265,7 @@ router.post('/users/upload',auth,multer_uploads.array('files',10000),async (req,
 })
 
 //delete his own dataset only 
-router.delete('/users/datasets/:name',auth,async (req,res)=>{
+router.delete('/api/users/datasets/:name',auth,async (req,res)=>{
     try {
         dataset = await Dataset.findOne({name:req.params.name})
         if(dataset.owner.toString() == req.user._id.toString()){

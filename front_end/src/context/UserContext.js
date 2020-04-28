@@ -59,7 +59,7 @@ export const UserProvider = ({children})=>{
     async function register(data){
         axios({
             method: 'post',
-            url: 'http://localhost:5000/users/register',
+            url: 'http://localhost:5000/api/users/register',
             config: { headers: {'Content-Type': 'application/json' }},
             data: data,
             })
@@ -90,7 +90,7 @@ export const UserProvider = ({children})=>{
     async function flogin(data){
         axios({
             method: 'post',
-            url: 'http://localhost:5000/users/login',
+            url: 'http://localhost:5000/api/users/login',
             config: { headers: {'Content-Type': 'application/json' }},
             data: data,
             })
