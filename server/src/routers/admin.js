@@ -9,7 +9,7 @@ const  url = "mongodb://localhost:27017/"
 
 
 //temprary registration for admin for tets only 
-router.post('/admin',async (req,res)=>{
+router.post('/api/admin',async (req,res)=>{
     const admin = new Admin(req.body)
     try{
 
@@ -24,7 +24,7 @@ router.post('/admin',async (req,res)=>{
 
 
 // login 
-router.post('/admin/login',async(req,res)=>{
+router.post('/api/admin/login',async(req,res)=>{
     
     try{
     const admin = await Admin.findByCredentials(req.body.pseudo,req.body.password)
@@ -37,7 +37,7 @@ router.post('/admin/login',async(req,res)=>{
 
 })
 // logout 
-router.post('/admin/logout',auth,async (req,res)=>{
+router.post('/api/admin/logout',auth,async (req,res)=>{
     try{
         req.admin.tokens = req.admin.tokens.filter((token)=>{
             return token.token !== req.token
@@ -49,7 +49,7 @@ router.post('/admin/logout',auth,async (req,res)=>{
     }
 })
 
-router.get('/admin/dashboard',async(req,res)=>{
+router.get('/api/admin/dashboard',async(req,res)=>{
      try{
     
      res.send({"dash":"dash"})
@@ -61,7 +61,7 @@ router.get('/admin/dashboard',async(req,res)=>{
 
 
  //delete any dataset ( when deleting dataset deleted already app crash)
-router.delete('/admin/datasets/:name',auth,async (req,res)=>{
+router.delete('/api/admin/datasets/:name',auth,async (req,res)=>{
         try {
             mongodb.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true },
             (err, client) => {
@@ -88,7 +88,7 @@ router.delete('/admin/datasets/:name',auth,async (req,res)=>{
 
 
 // get all datasets 
-router.get('/admin/datasets',auth,async(req,res)=>{
+router.get('/api/admin/datasets',auth,async(req,res)=>{
     try{
     const all = await Dataset.find()
     res.send(all)

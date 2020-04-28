@@ -1,18 +1,21 @@
-import React, { useState, useEffect,useContext } from "react";
-// @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import React,{useState,useEffect,useContext} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-import DatasetTable from "components/DatasetTable/DatasetTable";
+import DatasetTable from "components/DatasetTable/DatasetTable"
+import {UserContext} from "context/UserContext"
 import axios from "axios"
-import {UserContext} from '../../context/UserContext'
 
-const styles = {
+const useStyles = makeStyles({
+  root: {
+    width: '100%',
+  },
+  container: {
+    maxHeight: 440,
+  },
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
       color: "rgba(255,255,255,.62)",
@@ -40,34 +43,28 @@ const styles = {
       lineHeight: "1"
     }
   }
-};
-
-const useStyles = makeStyles(styles);
-
-export default function Dataset() {
+});
 
 
-  const initialState={
-    rows: []
-  }
-
-  const [state, setstate] = useState(initialState)
+export default function Dataset(props) {
+  const classes = useStyles();
+  const [datasets, setDatasets] = useState([])
   const {token} = useContext(UserContext)
+
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
   const getDatasets= ()=>
-  { console.log(token)
+  { 
     axios({
       method: 'get',
-      url: 'http://localhost:5000/users/datasets',
+      url: 'http://localhost:5000/api/users/datasets',
       headers: {
         'Content-Type': 'application/json' 
       },
-      data:''
       })
       .then( (response)=> {
           if (response.data.success){
-            console.log(response.data.datasets)
+            setDatasets(response.data.datasets)
           }
           
       })
@@ -79,75 +76,42 @@ export default function Dataset() {
   useEffect(()=>
     {
       getDatasets()
-      
-    },
-    []
+    },[]
   )
 
-
-
-  const columns=[
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-   
-    {
-      id: 'type',
-      label: 'type',
-      minWidth: 170,
-      align: 'right',
-      
-    },
-    {
-      id: 'Price',
-      label: 'Price',
-      minWidth: 170,
-      align: 'right',
-      
-    },
-  ]
-  const columns1=[
-    { id: 'userId', label: 'userId', minWidth: 170 },
-    { id: 'id', label: 'id', minWidth: 100 },
-   
-    {
-      id: 'title',
-      label: 'title',
-      minWidth: 170,
-      align: 'right',
-      
-    },
-    {
-      id: 'body',
-      label: 'body',
-      minWidth: 170,
-      align: 'right',
-      
-    },
-  ]
-
-  const classes = useStyles();
   return (
-    <GridContainer>
+   <>
+   <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Datasets List</h4>
-            <p className={classes.cardCategoryWhite}>
-              Hi
-            </p>
+            <h4 className={classes.cardTitleWhite}>Dataset List</h4>
+            <h2 className={classes.cardCategoryWhite}>
+              Get Your Points !
+            </h2>
           </CardHeader>
-          <CardBody>
-            <DatasetTable 
-            columns = {columns1}
-          rows = {state.rows}
-          
-            
-            
-            />
-          </CardBody>
         </Card>
       </GridItem>
-     
-    </GridContainer>
+
+      <GridItem xs={12} sm={12} md={12}>
+        <DatasetTable title="Dataset Mezyena1" description=" this is juste a static example : description of  datasets description of  
+        datasets description of  datasets description of  datasets  " points="2"/>
+      </GridItem>
+
+      <GridItem xs={12} sm={12} md={12}>
+        <DatasetTable title="Dataset Mezyena2" description=" this is juste a static example : description of  datasets description of  
+        datasets description of  datasets description of  datasets  " points="2"/>
+      </GridItem>
+      <h1>Datasets from db </h1>
+      {datasets.map(dataset=>
+        <GridItem key={dataset._id} xs={12} sm={12} md={12}>
+        <DatasetTable title={dataset.name} description={dataset.description} points={dataset.points}/>
+      </GridItem>
+      )}
+
+      </GridContainer>
+   </>
   );
 }
+
+
