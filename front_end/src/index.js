@@ -29,6 +29,8 @@ import SignUp from 'layouts/SignUp'
 import "assets/css/material-dashboard-react.css?v=1.8.0";
 import LandingPage from "views/LandingPage/LandingPage";
 import { UserProvider } from "context/UserContext";
+import ImgStream from "views/ImgStream/ImgStream";
+
 const hist = createBrowserHistory();
 
 ReactDOM.render(
@@ -42,6 +44,8 @@ ReactDOM.render(
       <Route path="/admin" component={Admin} />
       <Route path="/(home|)" component={LandingPage} />
       <Route path="/rtl" component={RTL} />
+      <Route path="/img" component={ImgStream} />
+      
       
     </Switch>
   </Router>

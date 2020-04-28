@@ -20,6 +20,8 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import { useContext } from "react";
+import { UserContext } from "context/UserContext";
 
 const useStyles = makeStyles(styles);
 
@@ -47,10 +49,11 @@ export default function AdminNavbarLinks() {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+  const userContext = useContext(UserContext)
   return (
     <div>
-      <div className={classes.searchWrapper}>
-        <CustomInput
+      {/*<div className={classes.searchWrapper}>
+       } <CustomInput
           formControlProps={{
             className: classes.margin + " " + classes.search
           }}
@@ -64,8 +67,8 @@ export default function AdminNavbarLinks() {
         <Button color="white" aria-label="edit" justIcon round>
           <Search />
         </Button>
-      </div>
-      <Button
+      </div>*/}
+      {/*<Button
         color={window.innerWidth > 959 ? "transparent" : "white"}
         justIcon={window.innerWidth > 959}
         simple={!(window.innerWidth > 959)}
@@ -76,8 +79,10 @@ export default function AdminNavbarLinks() {
         <Hidden mdUp implementation="css">
           <p className={classes.linkText}>Dashboard</p>
         </Hidden>
-      </Button>
-      <div className={classes.manager}>
+      </Button>*/}
+
+     
+      {/*<div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
@@ -155,6 +160,7 @@ export default function AdminNavbarLinks() {
           )}
         </Poppers>
       </div>
+      */}
       <div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -193,6 +199,12 @@ export default function AdminNavbarLinks() {
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role="menu">
+                  <MenuItem
+                      onClick={handleCloseProfile}
+                      className={classes.dropdownItem}
+                    disabled>
+                      Welcome guest
+                    </MenuItem>
                     <MenuItem
                       onClick={handleCloseProfile}
                       className={classes.dropdownItem}
