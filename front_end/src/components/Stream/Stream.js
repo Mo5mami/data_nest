@@ -31,52 +31,46 @@ function Stream(props)
  
   const classes = useStyles();
   const [state, setstate] = useState({labeling:false, dataset:{},error:null,})
+
+
   useEffect(() => {
     const token = localStorage.getItem('token')
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    //get a single row of the dataset
+
+    //get dataset description ... 
     axios({
       method: 'get',
-      url: `url`,
+      url: `http://localhost:5000/api/users/datasets/${props.name}`,
       config: { headers: {'Content-Type': 'application/json' }},
     
       })
       .then( (res)=> {
           if(res.data.success)
           {
+            console.log(res.data)
             setstate(
-            {
-              ...state , 
-              dataset:res.data,
-            })
-          }
-          else{
-            setstate(
-              {
-                ...state,
-                error:res.data.message
-              }
-            )
-          }
-      })
-      .catch(e=>{
-          //console.log(e),
-          setstate(
               {
                 ...state,
                 dataset:{
-                  name:"name",
-                  description:"this is a dataset with the name dataset blllllllaaaaaaaaa blllllllllaaaaaaaaaaa bllllllllllllllllaaaaaaa",
+                  name:res.data.name,
+                  description:res.data.description,
                   rowPrice:"200",
                   completionRate:"0",
-                  features:['1','2','3'],
+                  features:res.data.labels,
                   },
              
               }
             )
+          }
+          else{
+            
+          }
       })
-    
-  }, [])
+      .catch(e=>{
+          console.log(e)
+      })
+    },[])
+
   
   const handleLabeling=()=>
   {
@@ -110,6 +104,8 @@ function Stream(props)
     </React.Fragment>
     )
   }
+
+
 
   return (
     <React.Fragment>
