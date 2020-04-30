@@ -22,25 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Stream(props) 
 {
-  const [state, setstate] = useState({ data:{},option:"", tableHead:[],tableContent:[]})
-  
-  useEffect(() => {
-    Axios
-			.get(`https://jsonplaceholder.typicode.com/posts/1`)
-			.then(res => {
-        //console.log(res.data)
-        setstate(
-          {
-            ...state , 
-            tableHead:Object.keys(res.data),
-            tableContent:Object.values(res.data),
-            data:res.data
-          })
-        //console.log(state.tableHead)
-        console.log(res.data)
-			})
-      
-  }, [])
+ 
   const classes = useStyles();
   
  
