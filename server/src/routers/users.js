@@ -71,7 +71,7 @@ router.post('/api/users/logout',auth,async (req,res)=>{
         })
 
     }catch(e){
-        res.status(500).send({
+        res.send({
             success:false,
             message:"cannot logout"
         })
@@ -98,9 +98,15 @@ router.get('/api/users/datasets',auth,async(req,res)=>{
     try{
     
     const dataset = await Dataset.findOne({name:req.params.name})
-    res.send(dataset)
+    res.send({
+        success:true,
+        dataset:dataset
+        })
     }catch(e){
-        res.status(400).send(e)
+        res.send({
+            success:false,
+            message:e
+        })
     }
 
 })
@@ -116,7 +122,10 @@ router.get('/api/users/datasets/:name/labeling',auth,async(req,res,next)=>{
             .collection(req.params.name)
             .findOne({occupied:false,labeled:false},(err,row)=>{
                 if (err) throw err 
-                if(!row) res.status(404).send({message:"all rows are labeled"})
+                if(!row) res.send({
+                                success:false,
+                                message:"all rows are labeled"
+                                })
                 if(row) {
 
                     client.db('DATANEST').collection(req.params.name)
@@ -129,7 +138,11 @@ router.get('/api/users/datasets/:name/labeling',auth,async(req,res,next)=>{
                                 
                         },1000*60)
                     })
-                    res.send(row)
+                    const {completed,_id,occupied,labeled,label,...row_to_send} = row
+                    res.send({
+                     success:true,
+                     row:row_to_send
+                    })
                    
                 }
                     
@@ -138,7 +151,10 @@ router.get('/api/users/datasets/:name/labeling',auth,async(req,res,next)=>{
         )
     
     }catch(err){
-        res.status(500).send(err)
+        res.send({
+            success:false,
+            message:err
+        })
     }
 
 })
@@ -157,7 +173,7 @@ router.put('/api/users/datasets/:name/labeling/:id',auth,async(req,res)=>{
             async (err,row)=>{
                 
                 if (err) throw err 
-                if(!row) res.status(404).send({message:"error occured , try again"})
+                if(!row) res.send({message:"error occured , try again"})
                 if(row) {
                     const dataset = await Dataset.findOne({name:req.params.name})
                     req.user.points += dataset.points
@@ -169,7 +185,10 @@ router.put('/api/users/datasets/:name/labeling/:id',auth,async(req,res)=>{
         )
     
     }catch(err){
-        res.status(500).send(e)
+        res.send({
+            success:false,
+            message:e
+        })
     }
 
 })

@@ -3,6 +3,7 @@ import { Grid, ButtonGroup, Button, Container } from '@material-ui/core'
 import LabelButton from 'components/LabelButton/LabelButton'
 
 function ControlButton(props) {
+  
 
     const handleSkip = () => {
     
@@ -17,7 +18,8 @@ function ControlButton(props) {
         //lenna tzid elcode
         
       }
-      
+    
+    
     return (
         <React.Fragment>
             <Container>

@@ -29,17 +29,13 @@ function ImgStream()
   }, [])
   
 
-  const features=["1","2","0"] //baddal lenna
-  const rowPrice=200 //baddal lenna
-  const datasetPrice=22200 //baddal lenna
-
   
 
   return (
     <React.Fragment>
 
     
-      <Stream features={features} rowPrice={rowPrice} datasetPrice={datasetPrice}>
+      <Stream >
         <img src={img} className="img-fluid" alt={img}/>
       </Stream>
     

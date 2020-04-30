@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 export default function SignIn() {
 
   
-  const {login,register} = useContext(UserContext)
+  const {login} = useContext(UserContext)
 
   const { handleChange, handleSubmit, values, errors } = useForm(
     submit,
@@ -185,7 +185,7 @@ export default function SignIn() {
       <Box mt={8}>
         <Copyright />
       </Box>
-      {login && <Redirect to="/admin" />}
+      {localStorage.getItem('token') && <Redirect to="/admin" />}
     </Container>
    
    
