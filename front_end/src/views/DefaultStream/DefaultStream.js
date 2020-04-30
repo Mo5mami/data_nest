@@ -21,7 +21,42 @@ function DefaultStream({match})
   const [state, setstate] = useState({ data:{},option:"", tableHead:[],tableContent:[],error:null,dataset:{}})
   
   
- 
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    //get a single row of the dataset
+    axios({
+      method: 'get',
+      url: `http://localhost:5000/api/users/datasets/${match.params.name}/labeling`,
+      config: { headers: {'Content-Type': 'application/json' }},
+    
+      })
+      .then( (res)=> {
+          if(res.data.success)
+          {
+            setstate(
+            {
+              ...state , 
+              tableHead:Object.keys(res.data.row),
+              tableContent:Object.values(res.data.row),
+              data:res.data.row
+            })
+          }
+          else{
+            setstate(
+              {
+                ...state,
+                error:res.data.message,
+                
+              }
+            )
+          }
+      })
+      .catch(e=>{
+          console.log(e)
+      })
+    
+  }, [])
 
 
   

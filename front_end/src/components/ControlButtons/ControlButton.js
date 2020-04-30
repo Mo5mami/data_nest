@@ -14,7 +14,7 @@ function ControlButton(props) {
         //lenna tzid elcode
       }
       
-      const handleSubmit=()=>{
+      const handleSubmit=(label)=>{
         //lenna tzid elcode
         
       }

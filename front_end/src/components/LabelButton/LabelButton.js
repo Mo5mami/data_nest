@@ -30,7 +30,7 @@ export default function LabelButton(props) {
 
   const handleSubmit = () => {
     setOpen(false);
-    props.handleSubmit()
+    props.handleSubmit(label)
     // lenna tzid codek ahmed
   };
   
