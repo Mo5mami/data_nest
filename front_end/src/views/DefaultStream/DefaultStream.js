@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 function DefaultStream({match}) 
 {
   const [state, setstate] = useState({ data:{},option:"", tableHead:[],tableContent:[],error:null,dataset:{}})
-  
+  const [labeling, setlabeling] = useState(false)
   
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -56,7 +56,7 @@ function DefaultStream({match})
           console.log(e)
       })
     
-  }, [])
+  }, [labeling])
 
 
   
@@ -83,7 +83,7 @@ function DefaultStream({match})
     <React.Fragment>
       {state.error && <p>{state.error}</p>}
       
-      <Stream name={match.params.name}>
+      <Stream name={match.params.name} labeling={{labeling,setlabeling}}>
     
     <div className={classes.root}>
 

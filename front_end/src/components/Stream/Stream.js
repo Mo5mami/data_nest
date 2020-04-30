@@ -30,7 +30,8 @@ function Stream(props)
 {
  
   const classes = useStyles();
-  const [state, setstate] = useState({labeling:false, dataset:{},error:null,})
+  const [state, setstate] = useState({ dataset:{},error:null,})
+  const [labeling,setlabeling]=[props.labeling.labeling,props.labeling.setlabeling]
   useEffect(() => {
     const token = localStorage.getItem('token')
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -80,13 +81,14 @@ function Stream(props)
   
   const handleLabeling=()=>
   {
-    setstate({...state,labeling:true})
+    setlabeling(true)
   }
   
   
   const labelingHandeling=()=>
   {
-    if(state.labeling===false){
+    console.log("labeling : ",labeling)
+    if(labeling===false){
       return (
         <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
       <Grid item >
