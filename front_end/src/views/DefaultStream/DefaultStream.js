@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Axios from 'axios';
+import axios from 'axios';
 import DefaultTable from 'components/DefaultTable/DefaultTable';
 import { TextField, TextareaAutosize, Grid } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -16,27 +16,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DefaultStream() 
+function DefaultStream({match}) 
 {
-  const [state, setstate] = useState({ data:{},option:"", tableHead:[],tableContent:[]})
+  const [state, setstate] = useState({ data:{},option:"", tableHead:[],tableContent:[],error:null,dataset:{}})
+  
   
   useEffect(() => {
-    Axios
-			.get(`https://jsonplaceholder.typicode.com/posts/1`)
-			.then(res => {
-        //console.log(res.data)
-        setstate(
+    const token = localStorage.getItem('token')
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    //get a single row of the dataset
+    axios({
+      method: 'get',
+      url: `http://localhost:5000/api/users/datasets/${match.params.name}/labeling`,
+      config: { headers: {'Content-Type': 'application/json' }},
+    
+      })
+      .then( (res)=> {
+          if(res.data.success)
           {
-            ...state , 
-            tableHead:Object.keys(res.data),
-            tableContent:Object.values(res.data),
-            data:res.data
-          })
-        //console.log(state.tableHead)
-        console.log(res.data)
-			})
-      
+            setstate(
+            {
+              ...state , 
+              tableHead:Object.keys(res.data.row),
+              tableContent:Object.values(res.data.row),
+              data:res.data.row
+            })
+          }
+          else{
+            setstate(
+              {
+                ...state,
+                error:res.data.message
+              }
+            )
+          }
+      })
+      .catch(e=>{
+          console.log(e)
+      })
+    
   }, [])
+
+
+  
   const classes = useStyles();
   
  
@@ -50,15 +72,20 @@ function DefaultStream()
     }
     return ""
   }
-  const features=["1","2","0"] //baddal lenna
+ 
+ console.log(state.data)
+  const features=['1','2','3']
   const rowPrice=200 //baddal lenna
   const datasetPrice=22200 //baddal lenna
 
   
 
   return (
+    
     <React.Fragment>
-      <Stream features={features} rowPrice={rowPrice} datasetPrice={datasetPrice}>
+      {state.error && <p>{state.error}</p>}
+      
+      <Stream features={features} rowPrice={rowPrice} datasetPrice={datasetPrice} name={match.params.name}>
     
     <div className={classes.root}>
 
