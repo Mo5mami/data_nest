@@ -18,52 +18,41 @@ function Labeling({ match }) {
   const [labeling, setlabeling] = useState(false)
   const [state, setstate] = useState({ dataset: {}, error: null, })
   const classes = useStyles();
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    //get a single row of the dataset
-    axios({
-      method: 'get',
-      url: `url`,
-      config: { headers: { 'Content-Type': 'application/json' } },
 
-    })
-      .then((res) => {
-        if (res.data.success) {
-          setstate(
-            {
-              ...state,
-              dataset: res.data,
-            })
-        }
-        else {
-          setstate(
-            {
-              ...state,
-              error: res.data.message
-            }
-          )
-        }
+    useEffect(() => {
+      const token = localStorage.getItem('token')
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      //get a single row of the dataset
+      axios({
+        method: 'get',
+        url: `http://localhost:5000/api/users/datasets/${match.params.name}`,
+        config: { headers: { 'Content-Type': 'application/json' } },
+  
       })
-      .catch(e => {
-        //console.log(e),
-        setstate(
-          {
-            ...state,
-            dataset: {
-              name: "name",
-              description: "this is a dataset with the name dataset blllllllaaaaaaaaa blllllllllaaaaaaaaaaa bllllllllllllllllaaaaaaa",
-              rowPrice: "200",
-              completionRate: "0",
-              features: ['1', '2', '3'],
-              type: "text"
-            },
-
+        .then((res) => {
+          if (res.data.success) {
+            
+            setstate(
+              {
+                ...state,
+                dataset: res.data.dataset,
+              })
           }
-        )
-      })
-
-  }, [])
+          else {
+            console.log("error" , res.data.message)
+            setstate(
+              {
+                ...state,
+                error: res.data.message
+              }
+            )
+          }
+        })
+        .catch(e => {
+          console.log("error",e)
+        })
+  
+    }, [])
 
 
 

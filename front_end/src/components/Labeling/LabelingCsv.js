@@ -6,6 +6,7 @@ import { TextField, TextareaAutosize, Grid, Container, ButtonGroup, Button, Dial
 import DefaultTable from 'components/DefaultTable/DefaultTable';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import img from "assets/img/sidebar-3.jpg"
+import {Redirect} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,12 +30,47 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LabelingCsv(props) {
-  const [state, setstate] = useState({ data: {}, option: "", error: null, dataset: {} })
+  const [state, setstate] = useState({ row_id:null,data: {}, option: "", error: null, dataset: {} })
   const [labeling, setlabeling] = useState(false)
-  const [label, setlabel] = useState(false)
+  const [label, setlabel] = useState("aa")
+  const [redirect, setredirect] = useState(false)
   const [open, setOpen] = React.useState(false);
 
   const classes = useStyles();
+
+  const updateLabel=(label)=>{
+    const token = localStorage.getItem('token')
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    //get a single row of the dataset
+    axios({
+      method: 'put',
+      url: `http://localhost:5000/api/users/datasets/${props.name}/labeling/${state.row_id}`,
+      config: { headers: { 'Content-Type': 'application/json' } },
+      data:{label:label}
+
+    })
+      .then((res) => {
+        if (res.data.success) {
+          setstate(
+            {
+              ...state,
+              message:res.data.message
+            })
+          
+        }
+        else {
+          setstate(
+            {
+              ...state,
+              error: res.data.message,
+            })
+          console.log("data error : ", res.data)
+        }
+      })
+      .catch(e => {
+        console.log("erreur : ", e)
+      })
+  }
 
   const getRow = () => {
     const token = localStorage.getItem('token')
@@ -42,18 +78,17 @@ function LabelingCsv(props) {
     //get a single row of the dataset
     axios({
       method: 'get',
-      //url: `http://localhost:5000/api/users/datasets/${match.params.name}/labeling`,
-      
-      url: `https://jsonplaceholder.typicode.com/posts/${Math.floor(Math.random() * 50)}`,
+      url: `http://localhost:5000/api/users/datasets/${props.name}/labeling`,
       config: { headers: { 'Content-Type': 'application/json' } },
 
     })
       .then((res) => {
-        if (res.data.success===res.data.success) {
+        if (res.data.success) {
           setstate(
             {
               ...state,
-              data: res.data
+              data: res.data.row,
+              row_id: res.data._id
             })
           console.log("data : ", res.data)
         }
@@ -72,7 +107,7 @@ function LabelingCsv(props) {
   }
 
   const body = () => {
-    if (props.dataset.type === "text") {
+    if (props.dataset.type === "2d") {
       return (
         <React.Fragment>
           <div className={classes.root}>
@@ -126,6 +161,7 @@ function LabelingCsv(props) {
       </Button>
     )
   }
+
   const handleClickOpen = () => {
 
     setOpen(true);
@@ -141,20 +177,25 @@ function LabelingCsv(props) {
   };
 
   const handleExit = () => {
-
+    console.log("exit ")
+    setredirect(true)
   }
 
   const handleSubmit = (event) => {
-    setOpen(false);
+    setOpen(false)
     console.log("label : ",label)
+    updateLabel(label)
     getRow()
 
   }
   const handleChange = (event) => {
+    console.log(event)
     setlabel(event.target.value)
   }
+
+
   const labelingHandeling = () => {
-    console.log("labeling : ", labeling)
+    
     if (labeling === false) {
       return (
         <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
@@ -167,10 +208,8 @@ function LabelingCsv(props) {
       )
     }
     return (
-      <React.Fragment>
-        
+      <React.Fragment> 
         {body()}
-    
         <br /><br />
         <Container>
           <div >
@@ -198,7 +237,7 @@ function LabelingCsv(props) {
                           onChange={handleChange}
                           displayEmpty
                           className={classes.selectEmpty}>
-                          {props.dataset.features.map((value, key) => {
+                          {props.dataset.labels.map((value, key) => {
                             return <MenuItem key={key} value={value}>{value}</MenuItem>
                           }
                           )}
@@ -223,6 +262,8 @@ function LabelingCsv(props) {
       </React.Fragment>
     )
   }
+
+
   const autoC = () => {
     if (state.option in state.data) {
       console.log("true : ", state.data[state.option])
@@ -231,15 +272,21 @@ function LabelingCsv(props) {
     return ""
   }
 
+
+
   const handleLabeling = () => {
     getRow()
     setlabeling(true)
   }
+
+
   return (
     <React.Fragment>
+      {state.error && <h1 style={{color:"red"}}>{state.error}</h1>}
       <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
         {labelingHandeling()}
       </Grid>
+      {redirect && <Redirect to="/admin"/>}
     </React.Fragment>
   );
 }

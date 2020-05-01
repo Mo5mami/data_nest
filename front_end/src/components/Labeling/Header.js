@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
   const classes = useStyles();
-
-
-
   return (
 
     <React.Fragment>
@@ -34,13 +31,13 @@ function Header(props) {
               <Paper className={classes.paper}> <h4 className={classes.like_btn}>Dataset Name</h4>  {props.dataset.name}</Paper>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Paper className={classes.paper}> <h4 className={classes.like_btn}>Dataset Row Price</h4>  {props.dataset.rowPrice}</Paper>
+              <Paper className={classes.paper}> <h4 className={classes.like_btn}>Dataset Row Price</h4>  {props.dataset.points}</Paper>
             </Grid>
             <Grid item xs={12} sm={8}>
               <Paper className={classes.paper}><h4 className={classes.like_btn}>Dataset Description </h4> {props.dataset.description}</Paper>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Paper className={classes.paper}> <h4 className={classes.like_btn}>Dataset Completion Rate</h4>  {props.dataset.completionRate} %</Paper>
+              <Paper className={classes.paper}> <h4 className={classes.like_btn}>Dataset Completion Rate</h4>  must add it in backend %</Paper>
             </Grid>
 
           </Grid>
