@@ -1,7 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import {Link,BrowserRouter as Router,Switch,Redirect} from 'react-router-dom'
+import {Link,BrowserRouter as Router,Switch} from 'react-router-dom'
 
 
 const styles = {

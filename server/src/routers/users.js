@@ -141,7 +141,8 @@ router.get('/api/users/datasets/:name/labeling',auth,async(req,res,next)=>{
                     const {completed,_id,occupied,labeled,label,...row_to_send} = row
                     res.send({
                      success:true,
-                     row:row_to_send
+                     row:row_to_send,
+                     _id:_id
                     })
                    
                 }
@@ -173,12 +174,15 @@ router.put('/api/users/datasets/:name/labeling/:id',auth,async(req,res)=>{
             async (err,row)=>{
                 
                 if (err) throw err 
-                if(!row) res.send({message:"error occured , try again"})
+                if(!row) res.send({success:false,message:"error occured , try again"})
                 if(row) {
                     const dataset = await Dataset.findOne({name:req.params.name})
                     req.user.points += dataset.points
                     await req.user.save()
-                    res.send(row)
+                    res.send({
+                        success:true,
+                        message:"succesfully updated row"
+                    })
                 }
             })
         }
@@ -236,7 +240,12 @@ router.post('/api/users/upload',auth,multer_uploads.array('files',10000),async (
             )   
         })
         }catch(e){
-            return res.status(500).send(e)
+            if (e.code===11000){
+                return res.send({
+                    success:false,
+                    message:"this name already exist , choose another name please"
+                })
+            }
         }
 
 
@@ -270,12 +279,19 @@ router.post('/api/users/upload',auth,multer_uploads.array('files',10000),async (
                             throw err 
                         }
                         client.close()
-                        res.send()
+                        res.send({
+                            success:true
+                        })
                         })
                     }
                 )
                 }catch(e){
-                    res.status(500).send(e)
+                    if (e.code===11000){
+                        return res.send({
+                            success:false,
+                            message:"this name already exist , choose another name please"
+                        })
+                    }
                 }  
 }else{
     res.status(500).send()
