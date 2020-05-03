@@ -177,7 +177,9 @@ router.put('/api/users/datasets/:name/labeling/:id',auth,async(req,res)=>{
                 if(!row) res.send({success:false,message:"error occured , try again"})
                 if(row) {
                     const dataset = await Dataset.findOne({name:req.params.name})
+                    dataset.percentage += 100/dataset.length
                     req.user.points += dataset.points
+                    await dataset.save()
                     await req.user.save()
                     res.send({
                         success:true,
@@ -245,6 +247,12 @@ router.post('/api/users/upload',auth,multer_uploads.array('files',10000),async (
                     success:false,
                     message:"this name already exist , choose another name please"
                 })
+            }else{
+                return res.send({
+                    success:false,
+                    message:e
+                })
+
             }
         }
 
@@ -291,10 +299,18 @@ router.post('/api/users/upload',auth,multer_uploads.array('files',10000),async (
                             success:false,
                             message:"this name already exist , choose another name please"
                         })
+                    }else{
+                        return res.send({
+                            success:false,
+                            message:e
+                        })
                     }
                 }  
 }else{
-    res.status(500).send()
+    res.send({
+        success:false,
+        message:"cannot post this type of data"
+    })
 }
   
 })

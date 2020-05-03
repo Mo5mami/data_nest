@@ -35,7 +35,7 @@ function Labeling({ match }) {
             setstate(
               {
                 ...state,
-                dataset: res.data.dataset,
+                dataset: res.data.dataset
               })
           }
           else {

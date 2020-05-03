@@ -5,7 +5,6 @@ import { TextField, TextareaAutosize, Grid, Container, ButtonGroup, Button, Dial
 //import ControlButton from 'components/ControlButtons/ControlButton';
 import DefaultTable from 'components/DefaultTable/DefaultTable';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import img from "assets/img/sidebar-3.jpg"
 import {Redirect} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 function LabelingCsv(props) {
   const [state, setstate] = useState({ row_id:null,data: {}, option: "", error: null, dataset: {} })
   const [labeling, setlabeling] = useState(false)
-  const [label, setlabel] = useState("aa")
+  const [label, setlabel] = useState("")
   const [redirect, setredirect] = useState(false)
   const [open, setOpen] = React.useState(false);
 
@@ -90,7 +89,7 @@ function LabelingCsv(props) {
               data: res.data.row,
               row_id: res.data._id
             })
-          console.log("data : ", res.data)
+          console.log("data : ", res.data.row)
         }
         else {
           setstate(
@@ -140,8 +139,12 @@ function LabelingCsv(props) {
         </React.Fragment>
       )
     }
-    if (props.dataset.type === "image") {
-      return <img src={img} className="img-fluid" alt={img} />
+    if (props.dataset.type === "images") {
+      return (
+        <React.Fragment>
+          <img src={String(state.data.URL).substring(10)} className="img-fluid" alt="image test" style={{height:"300px",width:"300px"}}/>
+      </React.Fragment>
+      )
     }
   }
 
@@ -177,19 +180,18 @@ function LabelingCsv(props) {
   };
 
   const handleExit = () => {
-    console.log("exit ")
+   
     setredirect(true)
   }
 
   const handleSubmit = (event) => {
     setOpen(false)
-    console.log("label : ",label)
     updateLabel(label)
     getRow()
 
   }
   const handleChange = (event) => {
-    console.log(event)
+    
     setlabel(event.target.value)
   }
 

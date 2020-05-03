@@ -3,7 +3,6 @@ require('./db/mongoose')
 const app = express()
 const userRouter = require('./routers/users')
 const adminRouter = require('./routers/admin')
-const session = require('express-session')
 const port = process.env.PORT || 5000
 
 
@@ -15,7 +14,8 @@ app.use(function (req, res, next) {
     
     next();
     });
-    
+
+
 var bodyParser  = require('body-parser');
 //fetch data from the request
 app.use(bodyParser.urlencoded({extended:false}));
@@ -25,10 +25,6 @@ app.use(bodyParser.json())
 app.use(express.json())
 app.use(userRouter)
 app.use(adminRouter)
-
-
-
-
 
 
  app.listen(port,()=>{

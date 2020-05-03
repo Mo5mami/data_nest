@@ -34,6 +34,7 @@ import Labeling from "views/Labeling/Labeling"
 import LabelButton from "components/LabelButton/LabelButton";
 import Logout from "components/Logout/Logout";
 import PrivateRoute from "components/PrivateRoute/PrivateRoute";
+import UploadDataset from "views/UploadDataset/UploadDataset";
 
 const hist = createBrowserHistory();
 
@@ -42,13 +43,13 @@ ReactDOM.render(
   <Router history={hist}>
     <Switch>
     
-    
+   
       <Route path="/SignIn" component={SignIn}/>
       <Route path="/SignUp" component={SignUp}/>
       <PrivateRoute path="/admin" component={Admin} />
       <Route path="/(home|)" component={LandingPage} />
       <Route path="/rtl" component={RTL} />
-      
+      <Route path='/up' component={UploadDataset}/>
       <Route exact path="/default/:name" component={Labeling} />
       <PrivateRoute exact path="/logout" component={Logout} />
       

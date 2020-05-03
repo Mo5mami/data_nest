@@ -37,7 +37,7 @@ function Header(props) {
               <Paper className={classes.paper}><h4 className={classes.like_btn}>Dataset Description </h4> {props.dataset.description}</Paper>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Paper className={classes.paper}> <h4 className={classes.like_btn}>Dataset Completion Rate</h4>  must add it in backend %</Paper>
+              <Paper className={classes.paper}> <h4 className={classes.like_btn}>Dataset Completion Rate</h4>  {props.dataset.percentage}%</Paper>
             </Grid>
 
           </Grid>
