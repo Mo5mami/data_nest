@@ -12,7 +12,6 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import {UserContext} from '../../context/UserContext'
 import avatar from "assets/img/faces/marc.jpg";
 
 const styles = {
@@ -40,7 +39,7 @@ const useStyles = makeStyles(styles);
 
 export default function Profile() {
   const classes = useStyles();
-  const {login,user} = useContext(UserContext)
+  
   return (
     <div>
       <GridContainer>
@@ -163,7 +162,7 @@ export default function Profile() {
             </CardAvatar>
             <CardBody profile>
               <h6 className={classes.cardCategory}>Backend Developer</h6>
-                  <h4 className={classes.cardTitle}>{login && user.firstName}{login && user.lastName}</h4>
+                  <h4 className={classes.cardTitle}>Ahmed attia</h4>
               <p className={classes.description}>
                this is an example how to use UserContext to get variables like username or email...
               </p>

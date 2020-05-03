@@ -2,8 +2,6 @@ import React ,{useReducer,createContext} from 'react'
 import axios from 'axios'
 
 const initialState = {
-    user : null,
-    token:null,
     login:false,
     error:null,
 }
@@ -16,13 +14,14 @@ export const UserContext = createContext(initialState)
 const reducer = (state,action)=>{
     switch(action.type){
         case "REGISTER_SUCCESS" : 
-            return{
+            { localStorage.setItem('jwt',action.payload.token)
+                return{
                 
                 user:action.payload.user,
                 token:action.payload.token,
                 login:true,
                 error:null
-            }
+            }}
             case "REGISTER_ERROR" : 
                 return{
                     ...state,
@@ -31,13 +30,14 @@ const reducer = (state,action)=>{
          
 
         case "LOGIN_SUCCESS" : 
-            return{
+            {localStorage.setItem('jwt',action.payload.token)
+                return{
                 
                 user:action.payload.user,
                 token:action.payload.token,
                 login:true,
                 error:null
-            }
+            }}
             case "LOGIN_ERROR" : 
                 return{
                     ...state,
@@ -66,7 +66,8 @@ export const UserProvider = ({children})=>{
             .then( (response)=> {
                 
                 if(response.data.success)
-                { 
+                { localStorage.setItem('user',JSON.stringify(response.data.user))
+                  localStorage.setItem('token',response.data.token)
                   dispatch({
                       type:"REGISTER_SUCCESS",
                       payload:response.data
@@ -97,7 +98,8 @@ export const UserProvider = ({children})=>{
             .then( (response)=> {
                 console.log(response)
                 if(response.data.success)
-                { 
+                { localStorage.setItem('user',JSON.stringify(response.data.user))
+                  localStorage.setItem('token',response.data.token)
                   dispatch({
                       type:"LOGIN_SUCCESS",
                       payload:response.data
@@ -118,11 +120,13 @@ export const UserProvider = ({children})=>{
     }
     
 
+    
+    
+
     return(
         <UserContext.Provider value={{
-            user:state.user,
+            
             login:state.login,
-            token:state.token,
             error:state.error,
             register,
             flogin

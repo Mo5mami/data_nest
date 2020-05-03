@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useContext} from 'react';
+import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 // core components
 import GridItem from "components/Grid/GridItem.js";
@@ -6,7 +6,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import DatasetTable from "components/DatasetTable/DatasetTable"
-import {UserContext} from "context/UserContext"
+
 import axios from "axios"
 
 const useStyles = makeStyles({
@@ -49,15 +49,15 @@ const useStyles = makeStyles({
 export default function Dataset(props) {
   const classes = useStyles();
   const [datasets, setDatasets] = useState([])
-  const {token} = useContext(UserContext)
 
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
+  
   const getDatasets= ()=>
-  { 
+  { const token = localStorage.getItem('token')
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios({
       method: 'get',
-      url: 'http://localhost:5000/api/users/datasets',
+      url: 'http://localhost:5000/api/datasets',
       headers: {
         'Content-Type': 'application/json' 
       },

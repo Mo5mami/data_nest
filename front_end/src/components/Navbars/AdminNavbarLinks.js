@@ -22,7 +22,8 @@ import Counter from "components/Counter/Counter.js";
 
 //import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import { useContext } from "react";
-import { UserContext } from "context/UserContext";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 //const useStyles = makeStyles(styles);
 const styles = {
@@ -61,7 +62,27 @@ export default function AdminNavbarLinks() {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
-  const userContext = useContext(UserContext);
+
+  //code written by ahmed
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  const handleLogout = () => {
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/users/logout",
+      config: { headers: { "Content-Type": "application/json" } },
+    })
+      .then((response) => {
+        if (response.data.success) {
+          localStorage.clear();
+        } else {
+          console.log("error from logout buttom ");
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <div>
       {/*<div className={classes.searchWrapper}>

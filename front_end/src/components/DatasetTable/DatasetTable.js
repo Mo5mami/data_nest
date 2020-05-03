@@ -1,7 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import {Link,BrowserRouter as Router} from 'react-router-dom'
+import {Link,BrowserRouter as Router,Switch} from 'react-router-dom'
 
 
 const styles = {
@@ -42,7 +42,8 @@ export default function DatasetTable(props) {
   return (
     
       <Router>
-      <Link to="/admin/home"  className={classes.datasetContainer}>
+        <Switch>
+      <Link to={`/default/${props.title}`}  className={classes.datasetContainer}>
         <div className={classes.titleContainer}>
           <span className={classes.datasetTitle}>{props.title}</span>
         </div>
@@ -60,7 +61,7 @@ export default function DatasetTable(props) {
         </div>
 
       </Link>
-
+      </Switch>
       </Router>
 
       

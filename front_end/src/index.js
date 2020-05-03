@@ -29,9 +29,12 @@ import SignUp from 'layouts/SignUp'
 import "assets/css/material-dashboard-react.css?v=1.8.0";
 import LandingPage from "views/LandingPage/LandingPage";
 import { UserProvider } from "context/UserContext";
-import ImgStream from "views/ImgStream/ImgStream";
-import DefaultStream from "views/DefaultStream/DefaultStream";
+
+import Labeling from "views/Labeling/Labeling"
 import LabelButton from "components/LabelButton/LabelButton";
+import Logout from "components/Logout/Logout";
+import PrivateRoute from "components/PrivateRoute/PrivateRoute";
+import UploadDataset from "views/UploadDataset/UploadDataset";
 
 const hist = createBrowserHistory();
 
@@ -39,16 +42,17 @@ ReactDOM.render(
   <UserProvider>
   <Router history={hist}>
     <Switch>
-    <Route path="/SignIn" component={SignIn}/>
     
-
+   
+      <Route path="/SignIn" component={SignIn}/>
       <Route path="/SignUp" component={SignUp}/>
-      <Route path="/admin" component={Admin} />
+      <PrivateRoute path="/admin" component={Admin} />
       <Route path="/(home|)" component={LandingPage} />
       <Route path="/rtl" component={RTL} />
-      <Route path="/img" component={ImgStream} />
-      <Route path="/default" component={DefaultStream} />
-      <Route path="/test" component={LabelButton} />
+      <Route path='/up' component={UploadDataset}/>
+      <Route exact path="/default/:name" component={Labeling} />
+      <PrivateRoute exact path="/logout" component={Logout} />
+      
       
       
     </Switch>

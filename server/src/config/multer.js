@@ -1,5 +1,6 @@
 
 const multer = require('multer')
+const fs = require('fs')
 var storage = multer.diskStorage({
     
     destination:(req,file,cb)=>{
@@ -8,7 +9,9 @@ var storage = multer.diskStorage({
             console.log('i m here')
             cb(null,'src/public/avatar/')
         }else {
-            cb(null,'src/public/datasets/'+req.body.type)
+            let path = 'src/public/datasets/'+req.body.type+'/'+req.body.name
+            fs.mkdirSync(path, { recursive: true })
+            cb(null,path)
         }
         
     },

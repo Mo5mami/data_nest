@@ -28,6 +28,14 @@ const datasestSchema = new mongoose.Schema({
     completed:{
         type: Boolean,
         default: false
+    },
+    percentage:{
+        type:Number,
+        default:0
+    },
+    length:{
+        type:Number,
+        required:true
     }
 
 })
