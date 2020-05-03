@@ -18,18 +18,30 @@ import Search from "@material-ui/icons/Search";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
+import Counter from "components/Counter/Counter.js";
 
-import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+//import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import { useContext } from "react";
 import { UserContext } from "context/UserContext";
 
+//const useStyles = makeStyles(styles);
+const styles = {
+  block: {
+    display: "flex",
+    flexDirection: " row-reverse",
+    flexWrap: "nowrap",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    alignContent: "stretch",
+  },
+};
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
-  const handleClickNotification = event => {
+  const handleClickNotification = (event) => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
     } else {
@@ -39,7 +51,7 @@ export default function AdminNavbarLinks() {
   const handleCloseNotification = () => {
     setOpenNotification(null);
   };
-  const handleClickProfile = event => {
+  const handleClickProfile = (event) => {
     if (openProfile && openProfile.contains(event.target)) {
       setOpenProfile(null);
     } else {
@@ -49,7 +61,7 @@ export default function AdminNavbarLinks() {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
-  const userContext = useContext(UserContext)
+  const userContext = useContext(UserContext);
   return (
     <div>
       {/*<div className={classes.searchWrapper}>
@@ -81,7 +93,6 @@ export default function AdminNavbarLinks() {
         </Hidden>
       </Button>*/}
 
-     
       {/*<div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -162,74 +173,82 @@ export default function AdminNavbarLinks() {
       </div>
       */}
       <div className={classes.manager}>
-        <Button
-          color={window.innerWidth > 959 ? "transparent" : "white"}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-owns={openProfile ? "profile-menu-list-grow" : null}
-          aria-haspopup="true"
-          onClick={handleClickProfile}
-          className={classes.buttonLink}
-        >
-          <Person className={classes.icons} />
-          <Hidden mdUp implementation="css">
-            <p className={classes.linkText}>Profile</p>
-          </Hidden>
-        </Button>
-        <Poppers
-          open={Boolean(openProfile)}
-          anchorEl={openProfile}
-          transition
-          disablePortal
-          className={
-            classNames({ [classes.popperClose]: !openProfile }) +
-            " " +
-            classes.popperNav
-          }
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              id="profile-menu-list-grow"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
-              }}
+        <div className={classes.block}>
+          <div>
+            <Button
+              color={window.innerWidth > 959 ? "transparent" : "white"}
+              justIcon={window.innerWidth > 959}
+              simple={!(window.innerWidth > 959)}
+              aria-owns={openProfile ? "profile-menu-list-grow" : null}
+              aria-haspopup="true"
+              onClick={handleClickProfile}
+              className={classes.buttonLink}
             >
-              <Paper>
-                <ClickAwayListener onClickAway={handleCloseProfile}>
-                  <MenuList role="menu">
-                  <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    disabled>
-                      Welcome guest
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Profile
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Settings
-                    </MenuItem>
-                    <Divider light />
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Logout
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Poppers>
+              <Person className={classes.icons} />
+              <Hidden mdUp implementation="css">
+                <p className={classes.linkText}>Profile</p>
+              </Hidden>
+            </Button>
+            <Poppers
+              open={Boolean(openProfile)}
+              anchorEl={openProfile}
+              transition
+              disablePortal
+              className={
+                classNames({ [classes.popperClose]: !openProfile }) +
+                " " +
+                classes.popperNav
+              }
+            >
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  id="profile-menu-list-grow"
+                  style={{
+                    transformOrigin:
+                      placement === "bottom" ? "center top" : "center bottom",
+                  }}
+                >
+                  <Paper>
+                    <ClickAwayListener onClickAway={handleCloseProfile}>
+                      <MenuList role="menu">
+                        <MenuItem
+                          onClick={handleCloseProfile}
+                          className={classes.dropdownItem}
+                          disabled
+                        >
+                          Welcome guest
+                        </MenuItem>
+                        <MenuItem
+                          onClick={handleCloseProfile}
+                          className={classes.dropdownItem}
+                        >
+                          Profile
+                        </MenuItem>
+                        <MenuItem
+                          onClick={handleCloseProfile}
+                          className={classes.dropdownItem}
+                        >
+                          Settings
+                        </MenuItem>
+                        <Divider light />
+                        <MenuItem
+                          onClick={handleCloseProfile}
+                          className={classes.dropdownItem}
+                        >
+                          Logout
+                        </MenuItem>
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Poppers>
+          </div>
+          <div>
+            <Counter></Counter>
+          </div>
+        </div>
       </div>
     </div>
   );

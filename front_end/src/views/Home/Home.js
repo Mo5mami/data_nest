@@ -1,17 +1,202 @@
 import React from "react";
-
+import { useContext } from "react";
+// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+// core components
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
+import CustomInput from "components/CustomInput/CustomInput.js";
+import Button from "components/CustomButtons/Button.js";
+import Card from "components/Card/Card.js";
+import CardHeader from "components/Card/CardHeader.js";
+import CardAvatar from "components/Card/CardAvatar.js";
+import CardBody from "components/Card/CardBody.js";
+import CardFooter from "components/Card/CardFooter.js";
+import { UserContext } from "../../context/UserContext";
+import avatar from "assets/img/faces/marc.jpg";
+import Table from "components/Table/Table.js";
+import { Datasets } from "variables/general.js";
+import DataSets from "components/Datasets/DataSets.js";
+import DescriptionIcon from "@material-ui/icons/Description";
+import IconButton from "@material-ui/core/IconButton";
+import { Grid } from "@material-ui/core";
+import MenuBookIcon from "@material-ui/icons/MenuBook";
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
+import ContactSupportIcon from "@material-ui/icons/ContactSupport";
+import { contributions } from "variables/general.js";
 
+import Contributions from "components/Contributions/Contributions";
 
-import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+const styles = {
+  cardCategoryWhite: {
+    color: "rgba(255,255,255,.62)",
+    margin: "0",
+    fontSize: "14px",
+    marginTop: "0",
+    marginBottom: "0",
+  },
+  cardTitleWhite: {
+    color: "#FFFFFF",
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none",
+  },
+
+  miniTitre: {
+    textAlign: "left",
+    fontSize: "1.2rem",
+    fontWeight: "700",
+    color: "#534c4c",
+    marginLeft: "20px",
+  },
+  labelButton: {
+    color: "#534c4c",
+    fontWeight: "500",
+    marginLeft: "10px",
+  },
+};
 
 const useStyles = makeStyles(styles);
 
 export default function Home() {
   const classes = useStyles();
+  const { login, user } = useContext(UserContext);
   return (
     <div>
-      
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={8}>
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12}>
+              <Card>
+                <CardHeader color="primary">
+                  <h4 className={classes.cardTitleWhite}>My Datasets</h4>
+                </CardHeader>
+                <CardBody>
+                  <DataSets DataSets={Datasets} />
+                </CardBody>
+                <CardFooter>
+                  <Button color="primary">See All</Button>
+                </CardFooter>
+              </Card>
+            </GridItem>
+
+            <GridItem xs={12} sm={12} md={6}>
+              <Card>
+                <CardHeader color="primary">
+                  <h4 className={classes.cardTitleWhite}>My Contributions</h4>
+                </CardHeader>
+                <CardBody>
+                  <Contributions contributions={contributions} />
+                </CardBody>
+                <CardFooter>
+                  <Button color="primary">See All</Button>
+                </CardFooter>
+              </Card>
+            </GridItem>
+
+            <GridItem xs={12} sm={12} md={6}>
+              <Card>
+                <CardHeader color="primary">
+                  <h4 className={classes.cardTitleWhite}></h4>
+                </CardHeader>
+                <CardBody>
+                  <DataSets DataSets={Datasets} />
+                </CardBody>
+                <CardFooter>
+                  <Button color="primary">See All</Button>
+                </CardFooter>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        </GridItem>
+
+        <GridItem xs={12} sm={12} md={4}>
+          <Card profile>
+            <CardAvatar profile>
+              <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                <img src={avatar} alt="..." />
+              </a>
+            </CardAvatar>
+            <CardBody profile>
+              <h6 className={classes.cardCategory}>Backend Developer</h6>
+              <h4 className={classes.cardTitle}>
+                {login && user.firstName}
+                {login && user.lastName}
+              </h4>
+              <p className={classes.description}>
+                this is an example how to use UserContext to get variables like
+                username or email...
+              </p>
+              <Button color="primary" round>
+                Follow
+              </Button>
+
+              <h3 className={classes.miniTitre}>Raccourcis</h3>
+
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={6}>
+                  <IconButton
+                    aria-label="Mes factures"
+                    className={classes.tableActionButton}
+                  >
+                    <DescriptionIcon
+                      className={
+                        classes.tableActionButtonIcon + " " + classes.edit
+                      }
+                    />
+                  </IconButton>
+                  <p className={classes.labelButton}>Mes factures</p>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                  {" "}
+                  <IconButton
+                    aria-label="catalog"
+                    className={classes.tableActionButton}
+                  >
+                    <MenuBookIcon
+                      className={
+                        classes.tableActionButtonIcon + " " + classes.edit
+                      }
+                    />
+                  </IconButton>
+                  <p className={classes.labelButton}>catalog of Datasets</p>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                  <IconButton
+                    aria-label="manage my points"
+                    className={classes.tableActionButton}
+                  >
+                    <CardGiftcardIcon
+                      className={
+                        classes.tableActionButtonIcon + " " + classes.edit
+                      }
+                    />
+                  </IconButton>
+                  <p className={classes.labelButton}>Manage my points</p>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                  {" "}
+                  <IconButton
+                    aria-label="assistance"
+                    className={classes.tableActionButton}
+                  >
+                    <ContactSupportIcon
+                      className={
+                        classes.tableActionButtonIcon + " " + classes.edit
+                      }
+                    />
+                  </IconButton>
+                  <p className={classes.labelButton}>Assistance</p>
+                </GridItem>
+              </GridContainer>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer>
     </div>
   );
 }
