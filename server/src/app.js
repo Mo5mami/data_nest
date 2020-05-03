@@ -3,8 +3,9 @@ require('./db/mongoose')
 const app = express()
 const userRouter = require('./routers/users')
 const adminRouter = require('./routers/admin')
+const datasetsRouter = require('./routers/datasets')
 const port = process.env.PORT || 5000
-
+const fs = require('fs')
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,16 +26,10 @@ app.use(bodyParser.json())
 app.use(express.json())
 app.use(userRouter)
 app.use(adminRouter)
-
+app.use(datasetsRouter)
 
  app.listen(port,()=>{
      console.log('listening on port '+port)
  })
 
-// const main = async ()=>{
-// User = require('./models/user')
-// const user = await User.findOne({_id:'5e7b539b4d215511468bcdf2'})
-// await user.populate('datasets').execPopulate()
-// console.log(user.datasets) }
-// main()
-
+ 

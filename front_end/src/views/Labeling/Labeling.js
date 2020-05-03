@@ -25,7 +25,7 @@ function Labeling({ match }) {
       //get a single row of the dataset
       axios({
         method: 'get',
-        url: `http://localhost:5000/api/users/datasets/${match.params.name}`,
+        url: `http://localhost:5000/api/datasets/${match.params.name}`,
         config: { headers: { 'Content-Type': 'application/json' } },
   
       })

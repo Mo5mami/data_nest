@@ -26,7 +26,7 @@ function UploadDataset() {
             //upload files to bakend , create new dataset 
             axios({
             method: 'post',
-            url: 'http://localhost:5000/api/users/upload',
+            url: 'http://localhost:5000/api/datasets/upload',
             config: { headers: { 'Content-Type': 'multipart/form_data' } },
             data:formData
             })

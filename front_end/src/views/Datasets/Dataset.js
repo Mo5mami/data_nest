@@ -57,7 +57,7 @@ export default function Dataset(props) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios({
       method: 'get',
-      url: 'http://localhost:5000/api/users/datasets',
+      url: 'http://localhost:5000/api/datasets',
       headers: {
         'Content-Type': 'application/json' 
       },

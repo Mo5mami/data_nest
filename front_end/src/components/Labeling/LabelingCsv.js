@@ -37,13 +37,13 @@ function LabelingCsv(props) {
 
   const classes = useStyles();
 
-  const updateLabel=(label)=>{
+  const updateLabel=(label,callback)=>{
     const token = localStorage.getItem('token')
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     //get a single row of the dataset
     axios({
       method: 'put',
-      url: `http://localhost:5000/api/users/datasets/${props.name}/labeling/${state.row_id}`,
+      url: `http://localhost:5000/api/datasets/${props.name}/labeling/${state.row_id}`,
       config: { headers: { 'Content-Type': 'application/json' } },
       data:{label:label}
 
@@ -55,6 +55,7 @@ function LabelingCsv(props) {
               ...state,
               message:res.data.message
             })
+            callback()
           
         }
         else {
@@ -77,7 +78,7 @@ function LabelingCsv(props) {
     //get a single row of the dataset
     axios({
       method: 'get',
-      url: `http://localhost:5000/api/users/datasets/${props.name}/labeling`,
+      url: `http://localhost:5000/api/datasets/${props.name}/labeling`,
       config: { headers: { 'Content-Type': 'application/json' } },
 
     })
@@ -95,6 +96,7 @@ function LabelingCsv(props) {
           setstate(
             {
               ...state,
+              data:{},
               error: res.data.message,
             })
           console.log("data error : ", res.data)
@@ -105,6 +107,7 @@ function LabelingCsv(props) {
       })
   }
 
+  
   const body = () => {
     if (props.dataset.type === "2d") {
       return (
@@ -186,10 +189,9 @@ function LabelingCsv(props) {
 
   const handleSubmit = (event) => {
     setOpen(false)
-    updateLabel(label)
-    getRow()
-
+    updateLabel(label,getRow)
   }
+
   const handleChange = (event) => {
     
     setlabel(event.target.value)
