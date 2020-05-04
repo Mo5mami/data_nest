@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext } from "react";
+import { useContext , useEffect,useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -16,7 +16,7 @@ import CardFooter from "components/Card/CardFooter.js";
 import { UserContext } from "../../context/UserContext";
 import avatar from "assets/img/faces/marc.jpg";
 import Table from "components/Table/Table.js";
-import { Datasets } from "variables/general.js";
+
 import DataSets from "components/Datasets/DataSets.js";
 import DescriptionIcon from "@material-ui/icons/Description";
 import IconButton from "@material-ui/core/IconButton";
@@ -25,8 +25,9 @@ import MenuBookIcon from "@material-ui/icons/MenuBook";
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 import { contributions } from "variables/general.js";
-
 import Contributions from "components/Contributions/Contributions";
+import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 const styles = {
   cardCategoryWhite: {
@@ -60,13 +61,85 @@ const styles = {
   },
 };
 
+
+
+
 const useStyles = makeStyles(styles);
 
 export default function Home() {
   const classes = useStyles();
-  const { login, user } = useContext(UserContext);
+  const [myContributions, setMyContributions] = useState([])
+  const [myDatasets, setMyDatasets] = useState([])
+  const [allDatasets, setAllDatasets] = useState([])
+
+  useEffect( ()=>{
+    const token = localStorage.getItem('token')
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    //get myDatasets 
+     axios({
+      method: 'get',
+      url: 'http://localhost:5000/api/mydatasets/?number=3',
+      headers: {
+        'Content-Type': 'application/json' 
+      },
+      })
+      .then( (response)=> {
+          if (response.data.success){
+            console.log(response.data)
+            setMyDatasets(response.data.datasets)
+          }
+          
+      })
+      .catch(e=>{
+          console.log(e)
+      })
+
+    //get all datasets 
+     axios({
+        method: 'get',
+        url: 'http://localhost:5000/api/datasets/?number=3',
+        headers: {
+          'Content-Type': 'application/json' 
+        },
+      })
+      .then( (response)=> {
+            if (response.data.success){
+              console.log(response.data)
+              setAllDatasets(response.data.datasets)
+            }
+            
+      })
+      .catch(e=>{
+            console.log(e)
+      })
+
+    //get contributions of user connected
+     axios({
+      method: 'get',
+      url: 'http://localhost:5000/api/users/contributions',
+      headers: {
+        'Content-Type': 'application/json' 
+      },
+      })
+      .then( (response)=> {
+          if (response.data.success){
+           
+            setMyContributions(response.data.contributions)
+          }
+          
+      })
+      .catch(e=>{
+          console.log(e)
+      })
+  
+
+  },[])
+
+  
+
   return (
-    <div>
+    
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <GridContainer>
@@ -76,10 +149,12 @@ export default function Home() {
                   <h4 className={classes.cardTitleWhite}>My Datasets</h4>
                 </CardHeader>
                 <CardBody>
-                  <DataSets DataSets={Datasets} />
+                  <DataSets DataSets={myDatasets} />
                 </CardBody>
                 <CardFooter>
+                  <Link to='/admin/datasets'>
                   <Button color="primary">See All</Button>
+                  </Link>
                 </CardFooter>
               </Card>
             </GridItem>
@@ -90,10 +165,12 @@ export default function Home() {
                   <h4 className={classes.cardTitleWhite}>My Contributions</h4>
                 </CardHeader>
                 <CardBody>
-                  <Contributions contributions={contributions} />
+                  <Contributions contributions={myContributions} />
                 </CardBody>
                 <CardFooter>
+                  <Link to='/admin/datasets'>
                   <Button color="primary">See All</Button>
+                  </Link>
                 </CardFooter>
               </Card>
             </GridItem>
@@ -101,18 +178,22 @@ export default function Home() {
             <GridItem xs={12} sm={12} md={6}>
               <Card>
                 <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}></h4>
+                  <h4 className={classes.cardTitleWhite}>All Datasets</h4>
                 </CardHeader>
                 <CardBody>
-                  <DataSets DataSets={Datasets} />
+                  <DataSets DataSets={allDatasets} />
                 </CardBody>
                 <CardFooter>
+                <Link to='/admin/datasets'>
                   <Button color="primary">See All</Button>
+                  </Link>
                 </CardFooter>
               </Card>
             </GridItem>
           </GridContainer>
         </GridItem>
+
+
 
         <GridItem xs={12} sm={12} md={4}>
           <Card profile>
@@ -124,8 +205,7 @@ export default function Home() {
             <CardBody profile>
               <h6 className={classes.cardCategory}>Backend Developer</h6>
               <h4 className={classes.cardTitle}>
-                {login && user.firstName}
-                {login && user.lastName}
+                
               </h4>
               <p className={classes.description}>
                 this is an example how to use UserContext to get variables like
@@ -196,7 +276,9 @@ export default function Home() {
             </CardBody>
           </Card>
         </GridItem>
+
+
       </GridContainer>
-    </div>
+    
   );
 }

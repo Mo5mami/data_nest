@@ -2,6 +2,7 @@ const express = require('express')
 const router = new express.Router()
 const auth = require('../middleware/auth')
 const Dataset = require('../models/datasets-meta')
+const Contribution = require('../models/contribution')
 const mongodb = require('mongodb')
 const ObjectId = require('mongodb').ObjectId;
 const multer_uploads = require('../config/multer')
@@ -10,13 +11,22 @@ const  url = "mongodb://localhost:27017/";
 User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
+
+var last =  function(array, n) {
+    if (array == null) 
+      return void 0;
+    if (n == null) 
+       return array[array.length - 1];
+    return array.slice(Math.max(array.length - n, 0));  
+    };
+
 // get all datasets 
 router.get('/api/datasets',auth,async(req,res)=>{
      try{
      const all = await Dataset.find()
      res.send({
          success:true,
-         datasets:all
+         datasets:last(all,Number(req.query.number)).reverse()
      })
      }catch(e){
          res.send({
@@ -26,19 +36,26 @@ router.get('/api/datasets',auth,async(req,res)=>{
  })
 
  //get all datsets of a single user : 
-router.get('/api/datasets/mine',auth,async (req,res)=>{
+router.get('/api/mydatasets',auth,async (req,res)=>{
+    
     try{
         const token = req.header('Authorization').replace('Bearer ','')
         const decoded = jwt.verify(token,'ahmed')
         const user = await User.findOne({_id:decoded._id,'tokens.token':token})
         await user.populate('datasets').execPopulate()
+
         res.send({
             success:true,
-            datasets:user.datasets
+            datasets:last(user.datasets,Number(req.query.number)).reverse()
         })
+
     }catch(e)
 {
-
+    console.log("error",e)
+    return res.send({
+        success:false,
+        message:e
+    })
 }
 })
 
@@ -129,6 +146,19 @@ router.put('/api/datasets/:name/labeling/:id',auth,async(req,res)=>{
                     const dataset = await Dataset.findOne({name:req.params.name})
                     dataset.percentage += 100/dataset.length
                     req.user.points += dataset.points
+                    Contribution
+                    .findOneAndUpdate
+                    ({owner:req.user._id,dataset:dataset._id},
+                        
+                    {$inc:{number:1}},
+                    async (err,doc)=>{
+                    if(!doc){
+                    const contribution = new Contribution({owner:req.user._id,dataset:dataset._id,number:1,name:dataset.name})
+                    await contribution.save()
+                    }
+                    })
+
+                    
                     await dataset.save()
                     await req.user.save()
                     res.send({

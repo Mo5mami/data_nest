@@ -62,6 +62,12 @@ userSchema.virtual('datasets',{
     foreignField: 'owner'
 })
 
+userSchema.virtual('contributions',{
+    ref:'Contribution',
+    localField : '_id',
+    foreignField: 'owner'
+})
+
 
 //hash password before saving 
 userSchema.pre('save',async function(next){

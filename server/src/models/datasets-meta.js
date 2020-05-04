@@ -40,5 +40,11 @@ const datasestSchema = new mongoose.Schema({
 
 })
 
+datasestSchema.virtual('datasets',{
+    ref:'Contribution',
+    localField : '_id',
+    foreignField: 'dataset'
+})
+
 const Datasets = mongoose.model('Dataset',datasestSchema)
 module.exports = Datasets

@@ -2,7 +2,7 @@ const express = require('express')
 const router = new express.Router()
 const auth = require('../middleware/auth')
 const User = require('../models/user')
-
+const jwt = require('jsonwebtoken')
 /// register user 
 router.post('/api/users/register',async (req,res)=>{
 
@@ -72,6 +72,23 @@ router.post('/api/users/logout',auth,async (req,res)=>{
     }
 })
 
+//get contributions of certain user
+router.get('/api/users/contributions',auth,async(req,res)=>{
+    try{
+        const token = req.header('Authorization').replace('Bearer ','')
+        const decoded = jwt.verify(token,'ahmed')
+        const user = await User.findOne({_id:decoded._id,'tokens.token':token})
+        await user.populate('contributions').execPopulate()
+        return res.send({
+            success:true,
+            contributions:user.contributions
+        })
+    }catch(e){
+        return res.send({
+            success:false,
+            message:"cannot find your contributions"
+        })
 
-
+    }
+})
 module.exports = router 

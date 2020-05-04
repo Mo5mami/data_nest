@@ -30,12 +30,12 @@ function Contributions(props) {
         </TableCell>
         <hr />
         {contributions.map((contribution) => (
-          <TableRow key={contribution.id} className={classes.tableRow}>
+          <TableRow key={contribution._id} className={classes.tableRow}>
             <TableCell className={tableCellClasses}>
               {contribution.name}
             </TableCell>
             <TableCell className={tableCellClasses}>
-              {contribution.numberOfSubmissions}
+              {contribution.number}
             </TableCell>
             <TableCell className={classes.tableActions}>
               <Tooltip
