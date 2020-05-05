@@ -10,7 +10,45 @@ const csv         = require('csvtojson')
 const  url = "mongodb://localhost:27017/";
 User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const fastcsv = require("fast-csv");
+const fs = require('fs')
 
+
+//helper fucntion t ocreate a csv file containig the labels and path images or data
+const   createCompletedCsvFile = async (name,type)=>{
+    return new Promise((resolve,rejetct)=>{
+        mongodb.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true },
+            (err, client) => {
+            if(err) throw new Error('couldn t connect to database')
+            client.db("DATANEST")
+            .collection(name)
+            .find({})
+            .project({_id:0,occupied:0,labeled:0})
+            .toArray((err, data) => {
+            if (err) throw err;
+            if(type!=="2d"){
+                data.forEach((row)=>{
+                    row.URL = row.URL.split('/').slice(-1)[0]
+                })
+            }
+            
+            console.log("finished traitement")
+            fastcsv
+              .write(data, { headers: true })
+              .on("finish", function() {
+                console.log("file created successfully!");
+              })
+              .pipe(fs.createWriteStream('src/public/datasets/completed/'+name+'.csv'))
+              .on("finish",function(){
+                  console.log("finished all")
+                  resolve()
+              })
+              
+            })
+        })
+        
+    })
+}
 
 var last =  function(array, n) {
     if (array == null) 
@@ -19,6 +57,48 @@ var last =  function(array, n) {
        return array[array.length - 1];
     return array.slice(Math.max(array.length - n, 0));  
     };
+
+
+    // download a dataset 
+router.get('/api/datasets/download',async (req,res)=>{
+    
+    try{
+        const dataset = await Dataset.findOne({name:req.query.name})
+        const token = req.header('Authorization').replace('Bearer ','')
+        const {_id} = jwt.verify(token,'ahmed')
+
+        if(dataset.owner.toString()!==_id.toString()){
+            return res.send({
+                success:false,
+                message:"This dataset is not yours"
+            })
+        }
+        if(dataset.percentage===100){
+            if(fs.existsSync('src/public/datasets/completed/'+req.query.name+'.csv')) {
+                res.download('src/public/datasets/completed/'+req.query.name+'.csv')
+            }else{
+                await createCompletedCsvFile(req.query.name,dataset.type)
+                res.download('src/public/datasets/completed/'+req.query.name+'.csv')
+            }
+            
+        }else{
+            res.send({
+                success:false,
+                message:"dataset not labeled yet"
+            })
+        }
+        
+
+
+    }catch(e){
+        res.send({
+            success:false,
+            message:"problem with the server"
+        })
+    }
+    
+    
+})
 
 // get all datasets 
 router.get('/api/datasets',auth,async(req,res)=>{
@@ -58,6 +138,8 @@ router.get('/api/mydatasets',auth,async (req,res)=>{
     })
 }
 })
+
+
 
 
 //user will see all the details about the dataset and how is supposed to label it 
@@ -144,7 +226,11 @@ router.put('/api/datasets/:name/labeling/:id',auth,async(req,res)=>{
                 if(!row) res.send({success:false,message:"error occured , try again"})
                 if(row) {
                     const dataset = await Dataset.findOne({name:req.params.name})
-                    dataset.percentage += 100/dataset.length
+                    dataset.percentage +=100/dataset.length
+                    if(Number.parseInt(dataset.percentage)==100){
+                        dataset.percentage = Number.parseInt(dataset.percentage)
+                        dataset.completed=true
+                    }
                     req.user.points += dataset.points
                     Contribution
                     .findOneAndUpdate
@@ -188,20 +274,22 @@ router.post('/api/datasets/upload',auth,multer_uploads.array('files',10000),asyn
     {
         try{
         
-        const dataset = new Dataset({
-            ...req.body,
-            owner :req.user._id 
-        })
-        await dataset.save()
+        
 
         //convert csvfile to jsonArray   
-        csv().fromFile(req.files[0].path).then((jsonObj)=>{
+        csv().fromFile(req.files[0].path).then(async (jsonObj)=>{
             //add the attribute occupied and labeled or not 
-            jsonObj.forEach((row)=>{
+            jsonObj.forEach( (row)=>{
                 row.occupied = false
                 row.labeled = false 
             })
-            
+            const dataset = new Dataset({
+                ...req.body,
+                owner :req.user._id ,
+                length:jsonObj.length
+            })
+            await dataset.save()
+
             mongodb.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true },
                 (err, client) => {
                 if (err) {
@@ -251,7 +339,8 @@ router.post('/api/datasets/upload',auth,multer_uploads.array('files',10000),asyn
             try{
                 const dataset = new Dataset({
                     ...req.body,
-                    owner :req.user._id 
+                    owner :req.user._id,
+                    length:files.length
                 })
                 await dataset.save()
 
@@ -326,6 +415,5 @@ router.delete('/api/datasets/:name',auth,async (req,res)=>{
         
     }
 )
-
 
 module.exports = router 
