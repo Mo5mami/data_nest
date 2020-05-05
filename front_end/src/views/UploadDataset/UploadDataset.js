@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import axios from 'axios'
 function UploadDataset() {
-   const [state, setstate] = useState({name:"",length:"",type:"",points:"",description:"",files:[]})
+   const [state, setstate] = useState({name:"",type:"",points:"",description:"",files:[]})
     const [total, setTotal] = useState(0)
     const onSubmit = (e)=>{
         e.preventDefault()
@@ -11,7 +11,7 @@ function UploadDataset() {
         formData.set('name',state.name)
         formData.set('description',state.description)
         formData.set('points',state.points)
-        formData.set('length',state.length)
+        
 
         //hedha pour le moment khalito statique
         formData.set('labels','1') // riguelhom baad kif tzid win bech yhot l labels taa dataset li possible
@@ -82,10 +82,7 @@ function UploadDataset() {
             <input type="text" onChange={onChange} className="form-control" id="description" aria-describedby="emailHelp" />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="length">length of dataset</label>
-            <input type="text" onChange={onChange} className="form-control" id="length" aria-describedby="emailHelp" />
-          </div>
+          
 
           <div className="form-group">
             <label htmlFor="points">Points for each row</label>

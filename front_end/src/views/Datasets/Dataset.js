@@ -76,6 +76,7 @@ export default function Dataset(props) {
   useEffect(()=>
     {
       getDatasets()
+      
     },[]
   )
 
@@ -105,7 +106,7 @@ export default function Dataset(props) {
       <h1>Datasets from db </h1>
       {datasets.map(dataset=>
         <GridItem key={dataset._id} xs={12} sm={12} md={12}>
-        <DatasetTable title={dataset.name} description={dataset.description} points={dataset.points}/>
+        <DatasetTable title={dataset.name} description={dataset.description} points={dataset.points} percentage={dataset.percentage}/>
       </GridItem>
       )}
 

@@ -1,8 +1,9 @@
-import React from "react";
+import React,{useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import {Link,BrowserRouter as Router,Switch} from 'react-router-dom'
-
+import { Button } from "@material-ui/core";
+import axios from 'axios'
 
 const styles = {
  
@@ -37,13 +38,47 @@ const useStyles = makeStyles(styles);
 
 export default function DatasetTable(props) {
 
+  console.log(props.percentage)
+  const [downloadStatus, setDownloadStatus] = useState(null)
+  const [downloadMessage, setDownloadMessage] = useState(null)
   const classes = useStyles();
+  const handleDownload = ()=>{
+    console.log('i m here')
+    const token = localStorage.getItem('token')
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios({
+      method: 'get',
+      url: `http://localhost:5000/api/datasets/download?name=${props.title}`,
+      headers: {
+        'Content-Type': 'application/json' 
+      },
+      })
+      .then(  (response)=> {
+        if(response.data.success==false){
+          setDownloadStatus("failed")
+          setDownloadMessage(response.data.message)
+        }else{
+        const type = response.headers['content-type']
+        const url = window.URL.createObjectURL(new Blob([response.data],{ type: type, encoding: 'UTF-8' }));
+        console.log(url)
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download',`${props.title}.csv`); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        }
+      })
+      .catch(e=>{
+          console.log(e)
+      })
+  }
 
   return (
     
-      <Router>
+      <div className={classes.datasetContainer}>
+        <Router>
         <Switch>
-      <Link to={`/default/${props.title}`}  className={classes.datasetContainer}>
+      <Link to={`/default/${props.title}`}>
         <div className={classes.titleContainer}>
           <span className={classes.datasetTitle}>{props.title}</span>
         </div>
@@ -53,16 +88,27 @@ export default function DatasetTable(props) {
           {props.description}
          </span>
         </div>
+        </Link>
+        </Switch>
+        </Router>
         <br/>
         <div className={classes.pointsContainer}>
          <span className={classes.datasetPoints}>
           {props.points}points/row
          </span>
         </div>
+        <br/>
+        <div className="">
+        <Button variant="contained" color="primary" onClick={handleDownload} disabled={props.percentage!==100}>
+            Download
+        </Button>
+        {downloadMessage && <p>{downloadMessage}</p>}
+        </div>
+      </div>
 
-      </Link>
-      </Switch>
-      </Router>
+     
+     
+      
 
       
      

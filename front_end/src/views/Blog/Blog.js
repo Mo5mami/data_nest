@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -36,12 +36,12 @@ import {
   emailsSubscriptionChart,
   completedTasksChart
 } from "variables/charts.js";
-
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-
 const useStyles = makeStyles(styles);
 
 export default function Blog() {
+
+  
   const classes = useStyles();
   return (
     <div className="container justify-content-center">
