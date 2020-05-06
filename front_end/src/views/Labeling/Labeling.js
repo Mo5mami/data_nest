@@ -60,7 +60,7 @@ function Labeling({ match }) {
 
     <React.Fragment>
       {state.error && <p>{state.error}</p>}
-      <Container maxWidth="false" className={classes.flex_center}>
+      <Container  className={classes.flex_center}>
         <Header name={match.params.name} dataset={state.dataset}> </Header>
       </Container>
 

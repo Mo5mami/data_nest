@@ -13,7 +13,7 @@ import TableCell from "@material-ui/core/TableCell";
 // @material-ui/icons
 import Details from "@material-ui/icons/Details";
 import styles from "assets/jss/material-dashboard-react/components/tasksStyle.js";
-
+import {Link} from 'react-router-dom'
 const useStyles = makeStyles(styles);
 
 function Contributions(props) {
@@ -24,9 +24,9 @@ function Contributions(props) {
   return (
     <Table className={classes.table}>
       <TableBody>
-        <TableCell className={tableCellClasses}>Name</TableCell>
+        <TableCell className={tableCellClasses}><strong>Number of submissions</strong></TableCell>
         <TableCell className={tableCellClasses}>
-          Number of submissions
+          <strong>Number of submissions</strong>
         </TableCell>
         <hr />
         {contributions.map((contribution) => (
@@ -48,11 +48,13 @@ function Contributions(props) {
                   aria-label="Detail"
                   className={classes.tableActionButton}
                 >
+                   <Link to={`/default/${contribution.name}`}>
                   <Details
                     className={
                       classes.tableActionButtonIcon + " " + classes.edit
                     }
                   />
+                  </Link>
                 </IconButton>
               </Tooltip>
             </TableCell>

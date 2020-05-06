@@ -25,7 +25,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 import HomeIcon from '@material-ui/icons/Home';
-
+import PublishIcon from '@material-ui/icons/Publish';
 
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
@@ -46,7 +46,7 @@ import Dataset from "views/Datasets/Dataset";
 import Blog from "views/Blog/Blog";
 import Profile from "views/Profile/Profile";
 import LandingPage from "views/LandingPage/LandingPage";
-
+import UploadDataset from 'views/UploadDataset/UploadDataset'
 const dashboardRoutes = [
   
   
@@ -64,6 +64,14 @@ const dashboardRoutes = [
     rtlName: "قائمة الجدول",
     icon: "content_paste",
     component: Dataset,
+    layout: "/admin"
+  },
+  {
+    path: "/up",
+    name: "Upload Dataset",
+    rtlName: "قائمة الجدول",
+    icon: PublishIcon,
+    component: UploadDataset,
     layout: "/admin"
   },
   {
@@ -88,14 +96,6 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
-    layout: "/admin"
-  },
-  {
-    path: "/user",
-    name: "User Profile",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
-    component: UserProfile,
     layout: "/admin"
   },
   {

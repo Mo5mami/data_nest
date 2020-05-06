@@ -55,6 +55,9 @@ function LabelingCsv(props) {
               ...state,
               message:res.data.message
             })
+            let user = JSON.parse(localStorage.getItem('user'))
+            user.points += props.dataset.points
+            localStorage.setItem('user',JSON.stringify(user))
             callback()
           
         }
@@ -90,7 +93,7 @@ function LabelingCsv(props) {
               data: res.data.row,
               row_id: res.data._id
             })
-          console.log("data : ", res.data.row)
+             
         }
         else {
           setstate(

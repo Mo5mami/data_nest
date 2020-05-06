@@ -44,14 +44,14 @@ ReactDOM.render(
     <Switch>
     
    
-      <Route path="/SignIn" component={SignIn}/>
-      <Route path="/SignUp" component={SignUp}/>
-      <PrivateRoute path="/admin" component={Admin} />
-      <Route path="/(home|)" component={LandingPage} />
-      <Route path="/rtl" component={RTL} />
-      <Route path='/up' component={UploadDataset}/>
-      <Route exact path="/default/:name" component={Labeling} />
-      <PrivateRoute exact path="/logout" component={Logout} />
+      <Route  path="/SignIn" component={SignIn}/>
+      <Route  path="/SignUp" component={SignUp}/>
+      <PrivateRoute  path="/admin" component={Admin} />
+      <Route  path="/(home|)" component={LandingPage} />
+      <Route  path="/rtl" component={RTL} />
+      <Route   path='/up' component={UploadDataset}/>
+      <Route  path="/default/:name" component={Labeling} />
+      <PrivateRoute  path="/logout" component={Logout} />
       
       
       

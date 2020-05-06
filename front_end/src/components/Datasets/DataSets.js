@@ -25,6 +25,11 @@ function DataSets(props) {
   return (
     <Table className={classes.table}>
       <TableBody>
+      <TableCell className={tableCellClasses}><strong>Name</strong></TableCell>
+        <TableCell className={tableCellClasses}>
+         <strong>Status</strong>
+        </TableCell>
+        <hr />
         {DataSets.map((dataSet) => (
           <TableRow key={dataSet._id} className={classes.tableRow}>
             <TableCell className={tableCellClasses}>{dataSet.name}</TableCell>

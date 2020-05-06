@@ -60,7 +60,7 @@ h4{
               style={{ fontSize: 20 }}
             />{" "}
             <h4 className="counter">
-              <CountUp duration={5} delay={1} end={1500}></CountUp>
+              <CountUp duration={5} delay={1} end={JSON.parse(localStorage.getItem('user')).points}></CountUp>
             </h4>
           </div>
         </div>

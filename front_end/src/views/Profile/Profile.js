@@ -162,9 +162,12 @@ export default function Profile() {
             </CardAvatar>
             <CardBody profile>
               <h6 className={classes.cardCategory}>Backend Developer</h6>
-                  <h4 className={classes.cardTitle}>Ahmed attia</h4>
+              <h4 className={classes.cardTitle}>
+                {`${JSON.parse(localStorage.getItem('user')).firstName} ${JSON.parse(localStorage.getItem('user')).lastName}`}
+              </h4>
               <p className={classes.description}>
-               this is an example how to use UserContext to get variables like username or email...
+                this is an example how to use localStorage to get variables like
+                username or email...
               </p>
               <Button color="primary" round>
                 Follow

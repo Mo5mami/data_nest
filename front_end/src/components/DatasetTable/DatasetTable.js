@@ -38,7 +38,6 @@ const useStyles = makeStyles(styles);
 
 export default function DatasetTable(props) {
 
-  console.log(props.percentage)
   const [downloadStatus, setDownloadStatus] = useState(null)
   const [downloadMessage, setDownloadMessage] = useState(null)
   const classes = useStyles();
@@ -76,8 +75,8 @@ export default function DatasetTable(props) {
   return (
     
       <div className={classes.datasetContainer}>
-        <Router>
-        <Switch>
+        
+       
       <Link to={`/default/${props.title}`}>
         <div className={classes.titleContainer}>
           <span className={classes.datasetTitle}>{props.title}</span>
@@ -89,8 +88,8 @@ export default function DatasetTable(props) {
          </span>
         </div>
         </Link>
-        </Switch>
-        </Router>
+        
+        
         <br/>
         <div className={classes.pointsContainer}>
          <span className={classes.datasetPoints}>
