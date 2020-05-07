@@ -3,6 +3,7 @@ const router = new express.Router()
 const auth = require('../middleware/auth')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const nodemailer = require('nodemailer')
 /// register user 
 router.post('/api/users/register',async (req,res)=>{
 
@@ -90,5 +91,56 @@ router.get('/api/users/contributions',auth,async(req,res)=>{
         })
 
     }
+})
+
+router.post('/api/users/sendMail',async (req,res)=>{
+try{
+    if(req.body.name && req.body.email && req.body.message){
+    output = `<h1>Hello Nesi w a7babi</h1>
+             <ul>
+             <li>Name : ${req.body.name}</li>
+             <li>Email : ${req.body.email}</li>
+             <li>Message : ${req.body.message}</li>
+             </ul> 
+    `
+    }else{
+        res.send({
+            success:false,
+            message:"problem with data"
+        })
+    }
+
+    let transporter = nodemailer.createTransport({
+    service: "gmail",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "datanest.team@gmail.com", // generated ethereal user
+      pass: "azerty!1234" // generated ethereal password
+    },
+    tls:{
+        rejectUnauthorized:false
+    }
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    to: "datanest.team@gmail.com",
+     // list of receivers
+    subject: "Email from datanest landing page", // Subject line
+    html: output, // plain text body
+  })
+  res.send({
+    success:true
+})
+}catch(e){
+    res.send({
+        success:false,
+        message:"cannot send your mail"
+    })
+}
+
+ 
+
 })
 module.exports = router 

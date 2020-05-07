@@ -30,7 +30,6 @@ import PublishIcon from '@material-ui/icons/Publish';
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import HomePage from "views/Home/Home.js";
-import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Icons from "views/Icons/Icons.js";
