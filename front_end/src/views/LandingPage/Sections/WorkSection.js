@@ -44,9 +44,8 @@ export default function WorkSection() {
 
 
 const onChange=(e)=>{
-  console.log(e)
+  
     const {id,value} = e.target
-    console.log(id,value)
     setstate({
         ...state,
         [id]:value
@@ -55,6 +54,7 @@ const onChange=(e)=>{
 }
   return (
     <div className={classes.section}>
+      
       <GridContainer justify="center">
         <GridItem cs={12} sm={12} md={8}>
           <h2 className={classes.title}>Work with us</h2>
@@ -68,6 +68,7 @@ const onChange=(e)=>{
             <GridContainer>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput 
+                  onChange={onChange}
                   labelText="Your Name"
                   id="name"
                   formControlProps={{
@@ -77,6 +78,7 @@ const onChange=(e)=>{
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput 
+                  onChange={onChange}
                   labelText="Your Email"
                   id="email"
                   formControlProps={{
@@ -85,6 +87,7 @@ const onChange=(e)=>{
                 />
               </GridItem>
               <CustomInput 
+                onChange={onChange}
                 labelText="Your Message"
                 id="message"
                 formControlProps={{

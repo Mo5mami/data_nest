@@ -23,7 +23,8 @@ export default function CustomInput(props) {
     labelProps,
     inputProps,
     error,
-    success
+    success,
+    onChange
   } = props;
 
   const labelClasses = classNames({
@@ -53,6 +54,7 @@ export default function CustomInput(props) {
         </InputLabel>
       ) : null}
       <Input
+        onChange={onChange}
         classes={{
           root: marginTop,
           disabled: classes.disabled,
@@ -60,6 +62,7 @@ export default function CustomInput(props) {
         }}
         id={id}
         {...inputProps}
+        
       />
       {error ? (
         <Clear className={classes.feedback + " " + classes.labelRootError} />
