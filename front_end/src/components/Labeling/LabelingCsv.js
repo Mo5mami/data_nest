@@ -148,7 +148,10 @@ function LabelingCsv(props) {
     if (props.dataset.type === "images") {
       return (
         <React.Fragment>
+          <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
+            <Grid item >
           <img src={String(state.data.URL).substring(10)} className="img-fluid" alt="image test" style={{height:"300px",width:"300px"}}/>
+          </Grid></Grid>
       </React.Fragment>
       )
     }
@@ -168,6 +171,16 @@ function LabelingCsv(props) {
       <Button onClick={handleSubmit} color="primary" >
         Submit
       </Button>
+    )
+  }
+  const submitLabelOff = () => {
+    if (label === "")
+      return (
+        <Button onClick={handleSubmit} disabled>Submit Label</Button>
+      )
+
+    return (
+      <Button onClick={handleSubmit}>Submit Label</Button>
     )
   }
 
@@ -191,7 +204,7 @@ function LabelingCsv(props) {
   }
 
   const handleSubmit = (event) => {
-    setOpen(false)
+    //setOpen(false)
     updateLabel(label,getRow)
   }
 
@@ -216,15 +229,37 @@ function LabelingCsv(props) {
     }
     return (
       <React.Fragment> 
-        {body()}
-        <br /><br />
-        <Container>
+       <Container>
           <div >
+        {body()}
+        
+       
             <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
+              <Grid item>
+              <FormControl className={classes.formControl}>
+                        <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                          Label
+                        </InputLabel>
+                        <Select
+
+                          id="demo-simple-select-placeholder-label"
+                          value={label}
+                          onChange={handleChange}
+                          displayEmpty
+                          className={classes.selectEmpty}>
+                          {props.dataset.labels.map((value, key) => {
+                            return <MenuItem key={key} value={value}>{value}</MenuItem>
+                          }
+                          )}
+
+                        </Select>
+                        <FormHelperText>Choose the right label</FormHelperText>
+                      </FormControl>
+              </Grid>
               <Grid item >
                 <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
                   <Button onClick={handleSkip}>Skip</Button>
-                  <Button size="large" color="primary" aria-label="large primary button" variant="outlined" onClick={handleClickOpen}>
+                  {/*<Button size="large" color="primary" aria-label="large primary button" variant="outlined" onClick={handleClickOpen}>
                     Submit Label
                   </Button>
                   <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -261,6 +296,9 @@ function LabelingCsv(props) {
 
                     </DialogActions>
                   </Dialog>
+
+                        */}
+                 {submitLabelOff()}
                   <Button onClick={handleExit}>Exit</Button>
                 </ButtonGroup>
               </Grid></Grid>

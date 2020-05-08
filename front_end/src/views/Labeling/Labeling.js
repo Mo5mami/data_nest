@@ -9,7 +9,7 @@ import Header from "components/Labeling/Header"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#f0f0f0",
   },
 }));
 
@@ -58,7 +58,7 @@ function Labeling({ match }) {
 
   return (
 
-    <React.Fragment>
+    <div className={classes.root}>
       {state.error && <p>{state.error}</p>}
       <Container  className={classes.flex_center}>
         <Header name={match.params.name} dataset={state.dataset}> </Header>
@@ -66,7 +66,7 @@ function Labeling({ match }) {
 
       <LabelingCsv name={match.params.name} dataset={state.dataset}>
       </LabelingCsv>
-    </React.Fragment>
+    </div>
   );
 }
 export default Labeling;

@@ -16,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(1),
   },
+  bg: {
+    background: "inherit",
+    
+  },
 }));
 
 function Header(props) {
@@ -23,10 +27,13 @@ function Header(props) {
   return (
 
     <React.Fragment>
-      <div className={"jumbotron text-center " + classes.bg}>
-        <h1 className={classes.like_btn}>Labeling data as easy as it never was</h1>
+      <div className={"jumbotron text-center rounded " + classes.bg}>
+       
         <div className={classes.root}>
           <Grid container spacing={3}>
+          <Grid item xs={12}>
+          <Paper className={classes.paper}> <h2 className={classes.like_btn}>Labeling data as easy as it never was</h2>  </Paper>
+          </Grid>
             <Grid item xs={12} sm={8}>
               <Paper className={classes.paper}> <h4 className={classes.like_btn}>Dataset Name</h4>  {props.dataset.name}</Paper>
             </Grid>
