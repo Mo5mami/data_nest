@@ -195,6 +195,7 @@ function LabelingCsv(props) {
   };
   const handleSkip = () => {
     getRow()
+    setlabel("")
 
   };
 
@@ -206,6 +207,7 @@ function LabelingCsv(props) {
   const handleSubmit = (event) => {
     //setOpen(false)
     updateLabel(label,getRow)
+    setlabel("")
   }
 
   const handleChange = (event) => {
