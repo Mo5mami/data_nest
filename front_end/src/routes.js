@@ -16,39 +16,26 @@
 
 */
 // @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
-import Language from "@material-ui/icons/Language";
+
 import HomeIcon from '@material-ui/icons/Home';
 import PublishIcon from '@material-ui/icons/Publish';
 
 // core components/views for Admin layout
-import DashboardPage from "views/Dashboard/Dashboard.js";
+
 import HomePage from "views/Home/Home.js";
-import TableList from "views/TableList/TableList.js";
-import Typography from "views/Typography/Typography.js";
-import Icons from "views/Icons/Icons.js";
-import Maps from "views/Maps/Maps.js";
-import NotificationsPage from "views/Notifications/Notifications.js";
-import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
+
 import ForumIcon from '@material-ui/icons/Forum';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 
 
 // core components/views for RTL layout
-import RTLPage from "views/RTLPage/RTLPage.js";
 import Dataset from "views/Datasets/Dataset";
 import Blog from "views/Blog/Blog";
 import Profile from "views/Profile/Profile";
-import LandingPage from "views/LandingPage/LandingPage";
-import UploadDataset from 'views/UploadDataset/UploadDataset'
 import Contribution from './views/Contribution/Contribution';
+import UploadDataset from "views/UploadDataset/UploadDataset";
 const dashboardRoutes = [
   
   

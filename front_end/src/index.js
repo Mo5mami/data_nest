@@ -31,7 +31,6 @@ import LandingPage from "views/LandingPage/LandingPage";
 import { UserProvider } from "context/UserContext";
 
 import Labeling from "views/Labeling/Labeling"
-import LabelButton from "components/LabelButton/LabelButton";
 import Logout from "components/Logout/Logout";
 import PrivateRoute from "components/PrivateRoute/PrivateRoute";
 import UploadDataset from "views/UploadDataset/UploadDataset";
