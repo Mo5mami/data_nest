@@ -168,7 +168,7 @@ export default function Home() {
                   <Contributions contributions={myContributions} />
                 </CardBody>
                 <CardFooter>
-                  <Link to='/admin/datasets'>
+                  <Link to='/admin/contribution'>
                   <Button color="primary">See All</Button>
                   </Link>
                 </CardFooter>

@@ -37,6 +37,8 @@ import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 import ForumIcon from '@material-ui/icons/Forum';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+
 
 
 // core components/views for RTL layout
@@ -46,6 +48,7 @@ import Blog from "views/Blog/Blog";
 import Profile from "views/Profile/Profile";
 import LandingPage from "views/LandingPage/LandingPage";
 import UploadDataset from 'views/UploadDataset/UploadDataset'
+import Contribution from './views/Contribution/Contribution';
 const dashboardRoutes = [
   
   
@@ -71,6 +74,14 @@ const dashboardRoutes = [
     rtlName: "قائمة الجدول",
     icon: PublishIcon,
     component: UploadDataset,
+    layout: "/admin"
+  },
+  {
+    path: "/contribution",
+    name: "Contribution",
+    rtlName: "لوح",
+    icon: AssignmentTurnedInIcon,
+    component: Contribution,
     layout: "/admin"
   },
   {
