@@ -59,8 +59,8 @@ var last =  function(array, n) {
     };
 
 
-    // download a dataset 
-router.get('/api/datasets/download',async (req,res)=>{
+// download a dataset 
+router.get('/api/datasets/download',auth,async (req,res)=>{
     
     try{
         const dataset = await Dataset.findOne({name:req.query.name})
@@ -212,19 +212,23 @@ router.get('/api/datasets/:name/labeling',auth,async(req,res,next)=>{
 // updating one row 
 router.put('/api/datasets/:name/labeling/:id',auth,async(req,res)=>{
     
-    
+   
     try{
+        if(req.params.id == 'null'){
+            return res.send({success:false,message:"cannot find row with null as id update"})
+        }
         mongodb.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true },
             (err, client) => {
             if(err) throw new Error('couldnt connect to database')
             client.db("DATANEST")
             .collection(req.params.name)
-            .updateOne({_id:ObjectId(req.params.id)},{ $set: { labeled:true,label:req.body.label} },
+            .updateOne({_id:ObjectId(req.params.id),labeled:false},{ $set: { labeled:true,label:req.body.label} },
             async (err,row)=>{
                 
                 if (err) throw err 
-                if(!row) res.send({success:false,message:"error occured , try again"})
-                if(row) {
+                if(row.modifiedCount==0) res.send({success:false,message:"error occured , try again"})
+                if(row.modifiedCount==1) {
+                    
                     const dataset = await Dataset.findOne({name:req.params.name})
                     dataset.percentage +=100/dataset.length
                     if(Number.parseInt(dataset.percentage)==100){
@@ -259,7 +263,7 @@ router.put('/api/datasets/:name/labeling/:id',auth,async(req,res)=>{
     }catch(err){
         res.send({
             success:false,
-            message:e
+            message:err
         })
     }
 
