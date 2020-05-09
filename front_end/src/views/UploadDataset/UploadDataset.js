@@ -1,8 +1,53 @@
 import React,{useState} from 'react'
 import axios from 'axios'
+import GridContainer from 'components/Grid/GridContainer'
+import GridItem from 'components/Grid/GridItem'
+import Card from "components/Card/Card.js";
+import CardHeader from "components/Card/CardHeader.js";
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles({
+  root: {
+    width: '100%',
+  },
+  container: {
+    maxHeight: 440,
+  },
+  cardCategoryWhite: {
+    "&,& a,& a:hover,& a:focus": {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0"
+    },
+    "& a,& a:hover,& a:focus": {
+      color: "#FFFFFF"
+    }
+  },
+  cardTitleWhite: {
+    color: "#FFFFFF",
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none",
+    "& small": {
+      color: "#777",
+      fontSize: "65%",
+      fontWeight: "400",
+      lineHeight: "1"
+    }
+  }
+});
+
 function UploadDataset() {
-   const [state, setstate] = useState({name:"",type:"",points:"",description:"",files:[]})
+    const [state, setstate] = useState({name:"",type:"",points:"",description:"",files:[],numberOfLabels:0,arrayOfLabels:{}})
     const [total, setTotal] = useState(0)
+
+    const classes = useStyles();
     const onSubmit = (e)=>{
         e.preventDefault()
         const formData = new FormData()
@@ -11,8 +56,6 @@ function UploadDataset() {
         formData.set('name',state.name)
         formData.set('description',state.description)
         formData.set('points',state.points)
-        
-
         //hedha pour le moment khalito statique
         formData.set('labels','1') // riguelhom baad kif tzid win bech yhot l labels taa dataset li possible
         
@@ -63,8 +106,18 @@ function UploadDataset() {
         })
 
     }
+  
     return (
-        
+      <GridContainer>
+      <GridItem xs={12} sm={12} md={12}>
+      <Card>
+        <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Upload Your Dataset</h4>
+        </CardHeader>
+      </Card>
+    </GridItem>
+    <GridItem  xs={2} sm={2} md={2} />
+    <GridItem xs={8} sm={8} md={8} >
       <form onSubmit={onSubmit}>
 
           <div className="form-group">
@@ -93,9 +146,17 @@ function UploadDataset() {
             <label className="custom-file-label" htmlFor="customFile">{total}</label>
             <input type="file" onChange={onChangeFile} className="custom-file-input" id="customFile"  multiple/>
           </div>
+
+          <div className="form-group">
+            <label htmlFor="numberOfLabels">Number Of labels </label>
+            <input type="text" onChange={onChange} className="form-control" id="numberOfLabels" aria-describedby="emailHelp"/>
+          </div>
         <input type="submit" value="upload" className="btn-btn-primary"/>
+       
       </form>
-        
+      </GridItem>
+      <GridItem  xs={2} sm={2} md={2} />
+      </GridContainer>
     )
 }
 

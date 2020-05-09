@@ -81,7 +81,7 @@ export default function Dataset(props) {
   }
   
   useEffect(()=>
-    {
+    { console.log(localStorage)
       getDatasets()
       
     },[]
@@ -92,7 +92,7 @@ export default function Dataset(props) {
       setstate({...state,datasetType:type,displayDataset:datasets})
     if(type==="me")
     {
-      let user=JSON.parse( localStorage.getItem("user"))
+      let user=JSON.parse( localStorage.getItem('user'))
       
       setstate({...state,datasetType:type,displayDataset:datasets.filter(element => 
         {
@@ -116,18 +116,23 @@ export default function Dataset(props) {
         <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Dataset List</h4>
-            <BottomNavigation
+            
+          </CardHeader>
+        </Card>
+      </GridItem>
+      <GridItem xs={8} sm={8} md={8}></GridItem>
+      <GridItem style={{marginBottom:"20px"}} xs={4} sm={4} md={4}>
+        <BottomNavigation style={{backgroundColor:"#00acc1"}}
               value={state.datasetType}
               onChange={handleType}
               showLabels
               className={classes.root}
             >
-              <BottomNavigationAction value="all" label="All Datasets"  />
-              <BottomNavigationAction value="me" label="My Datasets"  />
+              <BottomNavigationAction className="text-white ml-3" value="all" label="All Datasets"  />
+              <BottomNavigationAction className="text-white ml-3" value="me" label="My Datasets"  />
               
             </BottomNavigation>
-          </CardHeader>
-        </Card>
+         
       </GridItem>
 
      
