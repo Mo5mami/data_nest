@@ -22,7 +22,7 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
 import Admin from "layouts/Admin.js";
-import RTL from "layouts/RTL.js";
+
 import SignIn from 'layouts/SignIn';
 import SignUp from 'layouts/SignUp'
 
@@ -47,7 +47,7 @@ ReactDOM.render(
       <Route  path="/SignUp" component={SignUp}/>
       <PrivateRoute  path="/admin" component={Admin} />
       <Route  path="/(home|)" component={LandingPage} />
-      <Route  path="/rtl" component={RTL} />
+      
       <Route   path='/up' component={UploadDataset}/>
       <Route  path="/default/:name" component={Labeling} />
       <PrivateRoute  path="/logout" component={Logout} />
