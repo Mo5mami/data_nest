@@ -15,6 +15,7 @@ export default function Footer(props) {
   return (
     <footer className={classes.footer}>
       <div className={classes.container}>
+        {/*
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
@@ -39,6 +40,7 @@ export default function Footer(props) {
             </ListItem>
           </List>
         </div>
+        */}
         <p className={classes.right}>
           <span>
             &copy; {1900 + new Date().getYear()}{" "}

@@ -130,18 +130,7 @@ export default function Dataset(props) {
         </Card>
       </GridItem>
 
-      {/*<GridItem xs={12} sm={12} md={12}>
-        <DatasetTable title="Dataset Mezyena1" description=" this is juste a static example : description of  datasets description of  
-        datasets description of  datasets description of  datasets  " points="2"/>
-      </GridItem>
-
-      <GridItem xs={12} sm={12} md={12}>
-        <DatasetTable title="Dataset Mezyena2" description=" this is juste a static example : description of  datasets description of  
-        datasets description of  datasets description of  datasets  " points="2"/>
-      </GridItem>
-  
-      <h1>Datasets from db </h1>
-      */}
+     
       {state.displayDataset.map(dataset=>
         <GridItem key={dataset._id} xs={12} sm={12} md={12}>
         <DatasetTable title={dataset.name} description={dataset.description} points={dataset.points} percentage={dataset.percentage}/>

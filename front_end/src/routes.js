@@ -100,7 +100,7 @@ const dashboardRoutes = [
     component: Profile,
     layout: "/admin"
   },
-  {
+  /*{
     path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
@@ -163,7 +163,7 @@ const dashboardRoutes = [
     icon: Unarchive,
     component: UpgradeToPro,
     layout: "/admin"
-  }
+  }*/
 ];
 
 export default dashboardRoutes;
