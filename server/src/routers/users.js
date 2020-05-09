@@ -73,6 +73,8 @@ router.post('/api/users/logout',auth,async (req,res)=>{
     }
 })
 
+
+
 //get contributions of certain user
 router.get('/api/users/contributions',auth,async(req,res)=>{
     try{
@@ -142,5 +144,22 @@ try{
 
  
 
+})
+
+//get user with id 
+router.get('/api/users/:id',auth,async (req,res)=>{
+    try{
+         const user = await User.findById(req.params.id)
+         res.send({
+             success:true,
+             user:user
+         })
+    }catch(e){
+        res.send({
+            success:false,
+            message:"cannot find this user"
+        })
+
+    }
 })
 module.exports = router 
