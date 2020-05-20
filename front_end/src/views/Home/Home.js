@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext , useEffect,useState } from "react";
+import { useContext, useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -26,8 +26,9 @@ import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 import { contributions } from "variables/general.js";
 import Contributions from "components/Contributions/Contributions";
-import axios from 'axios'
-import {Link} from 'react-router-dom'
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Container from "@material-ui/core/Container";
 
 const styles = {
   cardCategoryWhite: {
@@ -61,224 +62,197 @@ const styles = {
   },
 };
 
-
-
-
 const useStyles = makeStyles(styles);
 
 export default function Home() {
   const classes = useStyles();
-  const [myContributions, setMyContributions] = useState([])
-  const [myDatasets, setMyDatasets] = useState([])
-  const [allDatasets, setAllDatasets] = useState([])
+  const [myContributions, setMyContributions] = useState([]);
+  const [myDatasets, setMyDatasets] = useState([]);
+  const [allDatasets, setAllDatasets] = useState([]);
 
-  useEffect( ()=>{
-    const token = localStorage.getItem('token')
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-    //get myDatasets 
-     axios({
-      method: 'get',
-      url: 'http://localhost:5000/api/mydatasets/?number=3',
+    //get myDatasets
+    axios({
+      method: "get",
+      url: "http://localhost:5000/api/mydatasets/?number=3",
       headers: {
-        'Content-Type': 'application/json' 
+        "Content-Type": "application/json",
       },
+    })
+      .then((response) => {
+        if (response.data.success) {
+          console.log(response.data);
+          setMyDatasets(response.data.datasets);
+        }
       })
-      .then( (response)=> {
-          if (response.data.success){
-            console.log(response.data)
-            setMyDatasets(response.data.datasets)
-          }
-          
-      })
-      .catch(e=>{
-          console.log(e)
-      })
+      .catch((e) => {
+        console.log(e);
+      });
 
-    //get all datasets 
-     axios({
-        method: 'get',
-        url: 'http://localhost:5000/api/datasets/?number=3',
-        headers: {
-          'Content-Type': 'application/json' 
-        },
+    //get all datasets
+    axios({
+      method: "get",
+      url: "http://localhost:5000/api/datasets/?number=3",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.data.success) {
+          console.log(response.data);
+          setAllDatasets(response.data.datasets);
+        }
       })
-      .then( (response)=> {
-            if (response.data.success){
-              console.log(response.data)
-              setAllDatasets(response.data.datasets)
-            }
-            
-      })
-      .catch(e=>{
-            console.log(e)
-      })
+      .catch((e) => {
+        console.log(e);
+      });
 
     //get contributions of user connected
-     axios({
-      method: 'get',
-      url: 'http://localhost:5000/api/users/contributions',
+    axios({
+      method: "get",
+      url: "http://localhost:5000/api/users/contributions",
       headers: {
-        'Content-Type': 'application/json' 
+        "Content-Type": "application/json",
       },
+    })
+      .then((response) => {
+        if (response.data.success) {
+          setMyContributions(response.data.contributions);
+        }
       })
-      .then( (response)=> {
-          if (response.data.success){
-           
-            setMyContributions(response.data.contributions)
-          }
-          
-      })
-      .catch(e=>{
-          console.log(e)
-      })
-  
-
-  },[])
-
-  
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   return (
-    
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={8}>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}>My Datasets</h4>
-                </CardHeader>
-                <CardBody>
-                  <DataSets DataSets={myDatasets} />
-                </CardBody>
-                <CardFooter>
-                  <Link to='/admin/datasets'>
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={8}>
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card>
+              <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>My Datasets</h4>
+              </CardHeader>
+              <CardBody>
+                <DataSets DataSets={myDatasets} />
+              </CardBody>
+              <CardFooter>
+                <Link to="/admin/datasets">
                   <Button color="primary">See All</Button>
-                  </Link>
-                </CardFooter>
-              </Card>
-            </GridItem>
+                </Link>
+              </CardFooter>
+            </Card>
+          </GridItem>
 
-            <GridItem xs={12} sm={12} md={6}>
-              <Card>
-                <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}>My Contributions</h4>
-                </CardHeader>
-                <CardBody>
-                  <Contributions contributions={myContributions} />
-                </CardBody>
-                <CardFooter>
-                  <Link to='/admin/datasets'>
+          <GridItem xs={12} sm={12} md={8}>
+            <Card>
+              <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>My Contributions</h4>
+              </CardHeader>
+              <CardBody>
+                <Contributions contributions={myContributions} />
+              </CardBody>
+              <CardFooter>
+                <Link to="/admin/datasets">
                   <Button color="primary">See All</Button>
-                  </Link>
-                </CardFooter>
-              </Card>
-            </GridItem>
+                </Link>
+              </CardFooter>
+            </Card>
+          </GridItem>
 
-            <GridItem xs={12} sm={12} md={6}>
-              <Card>
-                <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}>All Datasets</h4>
-                </CardHeader>
-                <CardBody>
-                  <DataSets DataSets={allDatasets} />
-                </CardBody>
-                <CardFooter>
-                <Link to='/admin/datasets'>
-                  <Button color="primary">See All</Button>
-                  </Link>
-                </CardFooter>
-              </Card>
-            </GridItem>
-          </GridContainer>
-        </GridItem>
+          <GridItem xs={12} sm={12} md={4}>
+            <Container maxWidth="xs">
+              <Link to="/admin/upload">
+                <Button color="primary">UPLOAD NEW DATASET!</Button>
+              </Link>
+            </Container>
+          </GridItem>
+        </GridContainer>
+      </GridItem>
 
+      <GridItem xs={12} sm={12} md={4}>
+        <Card profile>
+          <CardAvatar profile>
+            <a href="#pablo" onClick={(e) => e.preventDefault()}>
+              <img src={avatar} alt="..." />
+            </a>
+          </CardAvatar>
+          <CardBody profile>
+            <h6 className={classes.cardCategory}>Backend Developer</h6>
+            <h4 className={classes.cardTitle}></h4>
+            <p className={classes.description}>
+              this is an example how to use UserContext to get variables like
+              username or email...
+            </p>
+            <Button color="primary" round>
+              Follow
+            </Button>
 
+            <h3 className={classes.miniTitre}>Raccourcis</h3>
 
-        <GridItem xs={12} sm={12} md={4}>
-          <Card profile>
-            <CardAvatar profile>
-              <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                <img src={avatar} alt="..." />
-              </a>
-            </CardAvatar>
-            <CardBody profile>
-              <h6 className={classes.cardCategory}>Backend Developer</h6>
-              <h4 className={classes.cardTitle}>
-                
-              </h4>
-              <p className={classes.description}>
-                this is an example how to use UserContext to get variables like
-                username or email...
-              </p>
-              <Button color="primary" round>
-                Follow
-              </Button>
-
-              <h3 className={classes.miniTitre}>Raccourcis</h3>
-
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
-                  <IconButton
-                    aria-label="Mes factures"
-                    className={classes.tableActionButton}
-                  >
-                    <DescriptionIcon
-                      className={
-                        classes.tableActionButtonIcon + " " + classes.edit
-                      }
-                    />
-                  </IconButton>
-                  <p className={classes.labelButton}>Mes factures</p>
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  {" "}
-                  <IconButton
-                    aria-label="catalog"
-                    className={classes.tableActionButton}
-                  >
-                    <MenuBookIcon
-                      className={
-                        classes.tableActionButtonIcon + " " + classes.edit
-                      }
-                    />
-                  </IconButton>
-                  <p className={classes.labelButton}>catalog of Datasets</p>
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <IconButton
-                    aria-label="manage my points"
-                    className={classes.tableActionButton}
-                  >
-                    <CardGiftcardIcon
-                      className={
-                        classes.tableActionButtonIcon + " " + classes.edit
-                      }
-                    />
-                  </IconButton>
-                  <p className={classes.labelButton}>Manage my points</p>
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  {" "}
-                  <IconButton
-                    aria-label="assistance"
-                    className={classes.tableActionButton}
-                  >
-                    <ContactSupportIcon
-                      className={
-                        classes.tableActionButtonIcon + " " + classes.edit
-                      }
-                    />
-                  </IconButton>
-                  <p className={classes.labelButton}>Assistance</p>
-                </GridItem>
-              </GridContainer>
-            </CardBody>
-          </Card>
-        </GridItem>
-
-
-      </GridContainer>
-    
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={6}>
+                <IconButton
+                  aria-label="Mes factures"
+                  className={classes.tableActionButton}
+                >
+                  <DescriptionIcon
+                    className={
+                      classes.tableActionButtonIcon + " " + classes.edit
+                    }
+                  />
+                </IconButton>
+                <p className={classes.labelButton}>Mes factures</p>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                {" "}
+                <IconButton
+                  aria-label="catalog"
+                  className={classes.tableActionButton}
+                >
+                  <MenuBookIcon
+                    className={
+                      classes.tableActionButtonIcon + " " + classes.edit
+                    }
+                  />
+                </IconButton>
+                <p className={classes.labelButton}>catalog of Datasets</p>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <IconButton
+                  aria-label="manage my points"
+                  className={classes.tableActionButton}
+                >
+                  <CardGiftcardIcon
+                    className={
+                      classes.tableActionButtonIcon + " " + classes.edit
+                    }
+                  />
+                </IconButton>
+                <p className={classes.labelButton}>Manage my points</p>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                {" "}
+                <IconButton
+                  aria-label="assistance"
+                  className={classes.tableActionButton}
+                >
+                  <ContactSupportIcon
+                    className={
+                      classes.tableActionButtonIcon + " " + classes.edit
+                    }
+                  />
+                </IconButton>
+                <p className={classes.labelButton}>Assistance</p>
+              </GridItem>
+            </GridContainer>
+          </CardBody>
+        </Card>
+      </GridItem>
+    </GridContainer>
   );
 }

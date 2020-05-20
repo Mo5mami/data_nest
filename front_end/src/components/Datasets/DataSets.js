@@ -12,9 +12,9 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 // @material-ui/icons
 import Details from "@material-ui/icons/Details";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import styles from "assets/jss/material-dashboard-react/components/tasksStyle.js";
-import {ProgressBar} from 'react-bootstrap'
+import { ProgressBar } from "react-bootstrap";
 const useStyles = makeStyles(styles);
 
 function DataSets(props) {
@@ -28,11 +28,16 @@ function DataSets(props) {
         {DataSets.map((dataSet) => (
           <TableRow key={dataSet._id} className={classes.tableRow}>
             <TableCell className={tableCellClasses}>{dataSet.name}</TableCell>
-        {/*<TableCell className={tableCellClasses}>{dataSet.description}</TableCell>*/}
-        <TableCell className={tableCellClasses}>
-          <ProgressBar style={{width:"80px"}} animated label={`${dataSet.percentage}%`} now={dataSet.percentage} />
-        </TableCell>
-            
+            {/*<TableCell className={tableCellClasses}>{dataSet.description}</TableCell>*/}
+            <TableCell className={tableCellClasses}>
+              <ProgressBar
+                style={{ width: "80px" }}
+                animated
+                label={`${dataSet.percentage}%`}
+                now={dataSet.percentage}
+              />
+            </TableCell>
+
             <TableCell className={classes.tableActions}>
               <Tooltip
                 id="tooltip-top"
@@ -45,13 +50,12 @@ function DataSets(props) {
                   className={classes.tableActionButton}
                 >
                   <Link to={`/default/${dataSet.name}`}>
-                  <Details
-                    className={
-                      classes.tableActionButtonIcon + " " + classes.edit
-                    }
-                  />
+                    <Details
+                      className={
+                        classes.tableActionButtonIcon + " " + classes.edit
+                      }
+                    />
                   </Link>
-
                 </IconButton>
               </Tooltip>
             </TableCell>

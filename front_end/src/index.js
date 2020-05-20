@@ -23,41 +23,33 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 // core components
 import Admin from "layouts/Admin.js";
 import RTL from "layouts/RTL.js";
-import SignIn from 'layouts/SignIn';
-import SignUp from 'layouts/SignUp'
+import SignIn from "layouts/SignIn";
+import SignUp from "layouts/SignUp";
 
 import "assets/css/material-dashboard-react.css?v=1.8.0";
 import LandingPage from "views/LandingPage/LandingPage";
 import { UserProvider } from "context/UserContext";
 
-import Labeling from "views/Labeling/Labeling"
+import Labeling from "views/Labeling/Labeling";
 import LabelButton from "components/LabelButton/LabelButton";
 import Logout from "components/Logout/Logout";
 import PrivateRoute from "components/PrivateRoute/PrivateRoute";
-import UploadDataset from "views/UploadDataset/UploadDataset";
 
 const hist = createBrowserHistory();
 
 ReactDOM.render(
   <UserProvider>
-  <Router history={hist}>
-    <Switch>
-    
-   
-      <Route path="/SignIn" component={SignIn}/>
-      <Route path="/SignUp" component={SignUp}/>
-      <PrivateRoute path="/admin" component={Admin} />
-      <Route path="/(home|)" component={LandingPage} />
-      <Route path="/rtl" component={RTL} />
-      <Route path='/up' component={UploadDataset}/>
-      <Route exact path="/default/:name" component={Labeling} />
-      <PrivateRoute exact path="/logout" component={Logout} />
-      
-      
-      
-    </Switch>
-  </Router>
-  </UserProvider>
- ,
+    <Router history={hist}>
+      <Switch>
+        <Route path="/SignIn" component={SignIn} />
+        <Route path="/SignUp" component={SignUp} />
+        <PrivateRoute path="/admin" component={Admin} />
+        <Route path="/(home|)" component={LandingPage} />
+        <Route path="/rtl" component={RTL} />
+        <Route exact path="/default/:name" component={Labeling} />
+        <PrivateRoute exact path="/logout" component={Logout} />
+      </Switch>
+    </Router>
+  </UserProvider>,
   document.getElementById("root")
 );

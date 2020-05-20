@@ -83,6 +83,7 @@ export default function AdminNavbarLinks() {
         console.log(e);
       });
   };
+  const pts = 50;
   return (
     <div>
       {/*<div className={classes.searchWrapper}>
@@ -259,7 +260,7 @@ export default function AdminNavbarLinks() {
                             className={classes.dropdownItem}
                           >
                             Logout
-                        </MenuItem>
+                          </MenuItem>
                         </Link>
                       </MenuList>
                     </ClickAwayListener>
@@ -269,7 +270,7 @@ export default function AdminNavbarLinks() {
             </Poppers>
           </div>
           <div>
-            <Counter></Counter>
+            <Counter myPoints={pts}></Counter>
           </div>
         </div>
       </div>

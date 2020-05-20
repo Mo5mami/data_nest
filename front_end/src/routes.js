@@ -24,8 +24,7 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
-import HomeIcon from '@material-ui/icons/Home';
-
+import HomeIcon from "@material-ui/icons/Home";
 
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
@@ -37,9 +36,8 @@ import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
-import ForumIcon from '@material-ui/icons/Forum';
-
-
+import ForumIcon from "@material-ui/icons/Forum";
+import UploadDataset from "views/UploadDataset/UploadDataset.js";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
 import Dataset from "views/Datasets/Dataset";
@@ -48,15 +46,13 @@ import Profile from "views/Profile/Profile";
 import LandingPage from "views/LandingPage/LandingPage";
 
 const dashboardRoutes = [
-  
-  
   {
     path: "/home",
     name: "Home",
     rtlName: "لوح",
     icon: HomeIcon,
     component: HomePage,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/datasets",
@@ -64,7 +60,7 @@ const dashboardRoutes = [
     rtlName: "قائمة الجدول",
     icon: "content_paste",
     component: Dataset,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/blog",
@@ -72,7 +68,7 @@ const dashboardRoutes = [
     rtlName: "لوح",
     icon: ForumIcon,
     component: Blog,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/profile",
@@ -80,7 +76,7 @@ const dashboardRoutes = [
     rtlName: "ملف تعريفي للمستخدم",
     icon: Person,
     component: Profile,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/dashboard",
@@ -88,7 +84,7 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/user",
@@ -96,7 +92,7 @@ const dashboardRoutes = [
     rtlName: "ملف تعريفي للمستخدم",
     icon: Person,
     component: UserProfile,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/table",
@@ -104,7 +100,7 @@ const dashboardRoutes = [
     rtlName: "قائمة الجدول",
     icon: "content_paste",
     component: TableList,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/typography",
@@ -112,7 +108,7 @@ const dashboardRoutes = [
     rtlName: "طباعة",
     icon: LibraryBooks,
     component: Typography,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/icons",
@@ -120,7 +116,7 @@ const dashboardRoutes = [
     rtlName: "الرموز",
     icon: BubbleChart,
     component: Icons,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/maps",
@@ -128,7 +124,7 @@ const dashboardRoutes = [
     rtlName: "خرائط",
     icon: LocationOn,
     component: Maps,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/notifications",
@@ -136,7 +132,7 @@ const dashboardRoutes = [
     rtlName: "إخطارات",
     icon: Notifications,
     component: NotificationsPage,
-    layout: "/admin"
+    layout: "/admin",
   },
   {
     path: "/rtl-page",
@@ -144,7 +140,7 @@ const dashboardRoutes = [
     rtlName: "پشتیبانی از راست به چپ",
     icon: Language,
     component: RTLPage,
-    layout: "/rtl"
+    layout: "/rtl",
   },
   {
     path: "/upgrade-to-pro",
@@ -152,8 +148,16 @@ const dashboardRoutes = [
     rtlName: "التطور للاحترافية",
     icon: Unarchive,
     component: UpgradeToPro,
-    layout: "/admin"
-  }
+    layout: "/admin",
+  },
+  {
+    path: "/upload",
+    name: "upload dataset",
+    rtlName: "التطور للاحترافية",
+    icon: Unarchive,
+    component: UploadDataset,
+    layout: "/admin",
+  },
 ];
 
 export default dashboardRoutes;

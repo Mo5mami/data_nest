@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import CountUp from "react-countup";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-dashboard-react/components/tasksStyle.js";
 import Tooltip from "@material-ui/core/Tooltip";
-
+import { useCountUp } from "react-countup";
 const useStyles = makeStyles(styles);
 
-function Counter() {
+function Counter({ myPoints }) {
   const Styles = styled.div`
 
 .wrapper{
@@ -45,8 +45,20 @@ h4{
 
   const classes = useStyles();
 
+  const [points, setpoints] = useState(myPoints);
+
+  const { countUp, update: hookUpdate } = useCountUp({
+    end: points,
+  });
+
+  const HandleChange = (e) => {
+    setpoints(e.target.value);
+    hookUpdate(e.target.value);
+  };
+
   return (
     <Styles>
+      <input value={points} onChange={(e) => HandleChange(e)} type="text " />
       <Tooltip
         id="tooltip-top"
         title="My points"
@@ -59,9 +71,7 @@ h4{
               className={classes.LoyaltyIcon}
               style={{ fontSize: 20 }}
             />{" "}
-            <h4 className="counter">
-              <CountUp duration={5} delay={1} end={1500}></CountUp>
-            </h4>
+            <h4 className="counter">{countUp}</h4>
           </div>
         </div>
       </Tooltip>
