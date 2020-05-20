@@ -6,6 +6,7 @@ import { TextField, TextareaAutosize, Grid, Container, ButtonGroup, Button, Dial
 import DefaultTable from 'components/DefaultTable/DefaultTable';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {Redirect} from 'react-router-dom'
+import doneImg from "assets/img/Done.png"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +56,9 @@ function LabelingCsv(props) {
               ...state,
               message:res.data.message
             })
+            let user = JSON.parse(localStorage.getItem('user'))
+            user.points += props.dataset.points
+            localStorage.setItem('user',JSON.stringify(user))
             callback()
           
         }
@@ -90,7 +94,7 @@ function LabelingCsv(props) {
               data: res.data.row,
               row_id: res.data._id
             })
-          console.log("data : ", res.data.row)
+             
         }
         else {
           setstate(
@@ -109,6 +113,16 @@ function LabelingCsv(props) {
 
   
   const body = () => {
+    if(state.error!== null){
+      return(
+        <React.Fragment>
+          <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
+            <Grid item >
+            <img src={doneImg} className="img-fluid" alt="image test" style={{height:"300px",width:"300px"}}/>
+          </Grid></Grid>
+      </React.Fragment>
+      )
+    }
     if (props.dataset.type === "2d") {
       return (
         <React.Fragment>
@@ -145,7 +159,10 @@ function LabelingCsv(props) {
     if (props.dataset.type === "images") {
       return (
         <React.Fragment>
+          <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
+            <Grid item >
           <img src={String(state.data.URL).substring(10)} className="img-fluid" alt="image test" style={{height:"300px",width:"300px"}}/>
+          </Grid></Grid>
       </React.Fragment>
       )
     }
@@ -153,32 +170,24 @@ function LabelingCsv(props) {
 
 
 
-  const submitOff = () => {
-    if (label === false)
+ 
+
+   
+  const submitLabelOff = () => {
+    if (label === "")
       return (
-        <Button onClick={handleSubmit} color="primary" disabled>
-          Submit
-        </Button>
+        <Button onClick={handleSubmit} disabled>Submit Label</Button>
       )
 
     return (
-      <Button onClick={handleSubmit} color="primary" >
-        Submit
-      </Button>
+      <Button onClick={handleSubmit}>Submit Label</Button>
     )
   }
 
-  const handleClickOpen = () => {
-
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setlabel("no")
-    setOpen(false);
-  };
+ 
   const handleSkip = () => {
     getRow()
+    setlabel("")
 
   };
 
@@ -188,8 +197,9 @@ function LabelingCsv(props) {
   }
 
   const handleSubmit = (event) => {
-    setOpen(false)
+    //setOpen(false)
     updateLabel(label,getRow)
+    setlabel("")
   }
 
   const handleChange = (event) => {
@@ -211,26 +221,37 @@ function LabelingCsv(props) {
         </Grid>
       )
     }
-    return (
-      <React.Fragment> 
-        {body()}
-        <br /><br />
-        <Container>
+    if(state.error!== null){
+      return(
+        <React.Fragment> 
+       <Container>
           <div >
+        {body()}
+        
+       
             <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
+              
               <Grid item >
                 <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
-                  <Button onClick={handleSkip}>Skip</Button>
-                  <Button size="large" color="primary" aria-label="large primary button" variant="outlined" onClick={handleClickOpen}>
-                    Submit Label
-                  </Button>
-                  <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Submit Label</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>
-                        Fill with the correct Label
-                       </DialogContentText>
-                      <FormControl className={classes.formControl}>
+                  
+                  <Button onClick={handleExit}>Exit</Button>
+                </ButtonGroup>
+              </Grid></Grid>
+          </div>
+        </Container>
+      </React.Fragment>
+      )
+    }
+    return (
+      <React.Fragment> 
+       <Container>
+          <div >
+        {body()}
+        
+       
+            <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
+              <Grid item>
+              <FormControl className={classes.formControl}>
                         <InputLabel shrink id="demo-simple-select-placeholder-label-label">
                           Label
                         </InputLabel>
@@ -249,15 +270,12 @@ function LabelingCsv(props) {
                         </Select>
                         <FormHelperText>Choose the right label</FormHelperText>
                       </FormControl>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose} color="primary">
-                        Cancel
-                      </Button>
-                      {submitOff()}
-
-                    </DialogActions>
-                  </Dialog>
+              </Grid>
+              <Grid item >
+                <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
+                  <Button onClick={handleSkip}>Skip</Button>
+                 
+                 {submitLabelOff()}
                   <Button onClick={handleExit}>Exit</Button>
                 </ButtonGroup>
               </Grid></Grid>
@@ -286,7 +304,7 @@ function LabelingCsv(props) {
 
   return (
     <React.Fragment>
-      {state.error && <h1 style={{color:"red"}}>{state.error}</h1>}
+     
       <Grid container direction="column" justify="space-around" alignItems="center" spacing={5}>
         {labelingHandeling()}
       </Grid>

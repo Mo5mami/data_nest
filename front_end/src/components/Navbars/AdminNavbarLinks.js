@@ -64,9 +64,10 @@ export default function AdminNavbarLinks() {
   };
 
   //code written by ahmed
-  const token = localStorage.getItem("token");
-  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  
   const handleLogout = () => {
+    const token = localStorage.getItem("token");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     axios({
       method: "post",
       url: "http://localhost:5000/api/users/logout",

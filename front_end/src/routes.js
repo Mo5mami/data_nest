@@ -16,7 +16,6 @@
 
 */
 // @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
@@ -27,7 +26,7 @@ import Language from "@material-ui/icons/Language";
 import HomeIcon from "@material-ui/icons/Home";
 
 // core components/views for Admin layout
-import DashboardPage from "views/Dashboard/Dashboard.js";
+
 import HomePage from "views/Home/Home.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
@@ -39,12 +38,11 @@ import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 import ForumIcon from "@material-ui/icons/Forum";
 import UploadDataset from "views/UploadDataset/UploadDataset.js";
 // core components/views for RTL layout
-import RTLPage from "views/RTLPage/RTLPage.js";
 import Dataset from "views/Datasets/Dataset";
 import Blog from "views/Blog/Blog";
 import Profile from "views/Profile/Profile";
-import LandingPage from "views/LandingPage/LandingPage";
-
+import Contribution from './views/Contribution/Contribution';
+import UploadDataset from "views/UploadDataset/UploadDataset";
 const dashboardRoutes = [
   {
     path: "/home",
@@ -63,6 +61,22 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
+    path: "/up",
+    name: "Upload Dataset",
+    rtlName: "قائمة الجدول",
+    icon: PublishIcon,
+    component: UploadDataset,
+    layout: "/admin"
+  },
+  {
+    path: "/contribution",
+    name: "Contribution",
+    rtlName: "لوح",
+    icon: AssignmentTurnedInIcon,
+    component: Contribution,
+    layout: "/admin"
+  },
+  {
     path: "/blog",
     name: "Blog",
     rtlName: "لوح",
@@ -78,7 +92,7 @@ const dashboardRoutes = [
     component: Profile,
     layout: "/admin",
   },
-  {
+  /*{
     path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",

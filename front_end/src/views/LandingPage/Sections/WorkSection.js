@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -11,13 +11,50 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/home/jss/material-kit-react/views/landingPageSections/workStyle.js";
-
+import axios from 'axios'
 const useStyles = makeStyles(styles);
 
 export default function WorkSection() {
   const classes = useStyles();
+  const [state, setstate] = useState({name:"",email:"",message:""})
+
+  const onSubmit = (e)=>{
+    e.preventDefault()
+  
+        axios({
+        method: 'post',
+        url: 'http://localhost:5000/api/users/sendMail',
+        config: { headers: { 'Content-Type': 'application/json' } },
+        data:state
+        })
+        .then((res) => {
+            if (res.data.success) {
+            
+            console.log("data : ", res.data)
+            }
+            else {
+            console.log("data error : ", res.data)
+            }
+        })
+        .catch(e => {
+            console.log("erreur : ", e)
+        })
+
+}
+
+
+const onChange=(e)=>{
+  
+    const {id,value} = e.target
+    setstate({
+        ...state,
+        [id]:value
+    })
+
+}
   return (
     <div className={classes.section}>
+      
       <GridContainer justify="center">
         <GridItem cs={12} sm={12} md={8}>
           <h2 className={classes.title}>Work with us</h2>
@@ -27,10 +64,11 @@ export default function WorkSection() {
             collaboration. We will responde get back to you in a couple of
             hours.
           </h4>
-          <form>
+          <form onSubmit={onSubmit}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
+                <CustomInput 
+                  onChange={onChange}
                   labelText="Your Name"
                   id="name"
                   formControlProps={{
@@ -39,7 +77,8 @@ export default function WorkSection() {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
+                <CustomInput 
+                  onChange={onChange}
                   labelText="Your Email"
                   id="email"
                   formControlProps={{
@@ -47,7 +86,8 @@ export default function WorkSection() {
                   }}
                 />
               </GridItem>
-              <CustomInput
+              <CustomInput 
+                onChange={onChange}
                 labelText="Your Message"
                 id="message"
                 formControlProps={{
@@ -61,7 +101,7 @@ export default function WorkSection() {
               />
               <GridContainer justify="center">
                 <GridItem xs={12} sm={12} md={4} className={classes.textCenter}>
-                  <Button color="primary">Send Message</Button>
+                  <Button type="submit" color="primary">Send Message</Button>
                 </GridItem>
               </GridContainer>
             </GridContainer>

@@ -2,19 +2,19 @@ import React,{useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import {Link,BrowserRouter as Router,Switch} from 'react-router-dom'
-import { Button } from "@material-ui/core";
+import { Button, Box } from "@material-ui/core";
 import axios from 'axios'
 
 const styles = {
  
   datasetContainer:{
-    display: "block",
-    padding: "28px 84px 28px 14px",
-    position: "relative",
+    //display: "block",
+    //padding: "28px 84px 28px 14px",
+    //position: "relative",
     backgroundColor:"white",
-    boxShadow: "none !important",
-    marginBottom: "25px",
-    borderBottom: "1px solid #dadada",
+    //boxShadow: "none !important",
+    //marginBottom: "25px",
+    //borderBottom: "1px solid #dadada",
   },
   datasetTitle:{
     color:"black",
@@ -31,6 +31,9 @@ const styles = {
   datasetPoints:{
     color:"#02c4ff",
     fontSize:"22px"
+  },
+  blue_btn:{
+    backgroundColor:"#00acc1",
   }
   
 };
@@ -38,7 +41,6 @@ const useStyles = makeStyles(styles);
 
 export default function DatasetTable(props) {
 
-  console.log(props.percentage)
   const [downloadStatus, setDownloadStatus] = useState(null)
   const [downloadMessage, setDownloadMessage] = useState(null)
   const classes = useStyles();
@@ -75,36 +77,36 @@ export default function DatasetTable(props) {
 
   return (
     
-      <div className={classes.datasetContainer}>
-        <Router>
-        <Switch>
+      <Box border={1} borderColor="grey.500" borderRadius={16} boxShadow={3} m={2} p={2} className={classes.datasetContainer}>
+        
+       
       <Link to={`/default/${props.title}`}>
         <div className={classes.titleContainer}>
           <span className={classes.datasetTitle}>{props.title}</span>
         </div>
         
         <div className={classes.descriptionContainer}>
-         <span className={classes.datasetDescription}>
+         <Box className={classes.datasetDescription} color="text.secondary">
           {props.description}
-         </span>
+         </Box>
         </div>
         </Link>
-        </Switch>
-        </Router>
+        
+        
         <br/>
         <div className={classes.pointsContainer}>
-         <span className={classes.datasetPoints}>
-          {props.points}points/row
-         </span>
+         <Box className={classes.datasetPoints}>
+          {props.points} Points / Row
+         </Box>
         </div>
         <br/>
         <div className="">
-        <Button variant="contained" color="primary" onClick={handleDownload} disabled={props.percentage!==100}>
+        <Button variant="contained" color="primary" onClick={handleDownload} disabled={props.percentage!==100} className={classes.blue_btn}>
             Download
         </Button>
         {downloadMessage && <p>{downloadMessage}</p>}
         </div>
-      </div>
+      </Box>
 
      
      

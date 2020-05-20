@@ -71,7 +71,13 @@ h4{
               className={classes.LoyaltyIcon}
               style={{ fontSize: 20 }}
             />{" "}
+<<<<<<< HEAD
             <h4 className="counter">{countUp}</h4>
+=======
+            <h4 className="counter">
+              <CountUp duration={5} delay={1} end={JSON.parse(localStorage.getItem('user')).points}></CountUp>
+            </h4>
+>>>>>>> 9ed88eaf484ab69daf0c90f4102c49e0b67f289c
           </div>
         </div>
       </Tooltip>
