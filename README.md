@@ -1,5 +1,5 @@
 # data_nest
-Create an app to help annotate the data
+Create an app to help label datasets
 
 Type: <b>MEAN</b> stack
 
