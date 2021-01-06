@@ -10,7 +10,7 @@
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.51",
     "aos": "^2.3.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
